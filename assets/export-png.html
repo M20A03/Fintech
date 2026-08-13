@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <title>Export IDR Logos to PNG</title>
+  <style>
+    body { font-family: Inter, sans-serif; padding: 2rem; background: #f5f5f5; }
+    h1 { font-size: 1.4rem; margin-bottom: 1rem; }
+    .export-row { display: flex; gap: 2rem; flex-wrap: wrap; margin-bottom: 2rem; }
+    .export-item { background: #fff; border-radius: 8px; padding: 1.5rem; text-align: center; }
+    .export-item canvas { border: 1px dashed #ccc; margin-bottom: 0.5rem; }
+    .export-item p { font-size: 0.85rem; margin: 0.25rem 0; }
+    a.dl { display: inline-block; margin-top: 0.5rem; padding: 0.4rem 0.8rem; background: #E8651A; color: #fff; border-radius: 6px; font-size: 0.85rem; }
+    .checkerboard { background-image:
+      linear-gradient(45deg, #ddd 25%, transparent 25%),
+      linear-gradient(-45deg, #ddd 25%, transparent 25%),
+      linear-gradient(45deg, transparent 75%, #ddd 75%),
+      linear-gradient(-45deg, transparent 75%, #ddd 75%);
+      background-size: 16px 16px;
+      background-position: 0 0, 0 8px, 8px -8px, -8px 0px;
+    }
+  </style>
+</head>
+<body>
+<h1>IDR Logo PNG Export</h1>
+<p>Open this file in a browser, then right-click or use the download links below each canvas to save the PNGs.</p>
+<div class="export-row" id="exports"></div>
+
+<script>
+const logos = [
+  {
+    name: 'idr-icon-512',
+    width: 512,
+    height: 512,
+    draw(ctx, w, h) {
+      // Scale from 100x100 viewbox
+      const s = w / 100;
+      ctx.save();
+      ctx.scale(s, s);
+      // Top
+      ctx.beginPath();
+      ctx.moveTo(50, 10); ctx.lineTo(90, 33); ctx.lineTo(50, 56); ctx.lineTo(10, 33); ctx.closePath();
+      ctx.fillStyle = '#E8651A'; ctx.fill();
+      // Left
+      ctx.beginPath();
+      ctx.moveTo(10, 33); ctx.lineTo(50, 56); ctx.lineTo(50, 93); ctx.lineTo(10, 70); ctx.closePath();
+      ctx.fillStyle = '#1A1A1A'; ctx.fill();
+      // Right
+      ctx.beginPath();
+      ctx.moveTo(90, 33); ctx.lineTo(50, 56); ctx.lineTo(50, 93); ctx.lineTo(90, 70); ctx.closePath();
+      ctx.fillStyle = '#2D2D2D'; ctx.fill();
+      ctx.restore();
+    }
+  },
+  {
+    name: 'idr-icon-64',
+    width: 64,
+    height: 64,
+    draw(ctx, w, h) {
+      const s = w / 100;
+      ctx.save(); ctx.scale(s, s);
+      ctx.beginPath(); ctx.moveTo(50, 10); ctx.lineTo(90, 33); ctx.lineTo(50, 56); ctx.lineTo(10, 33); ctx.closePath();
+      ctx.fillStyle = '#E8651A'; ctx.fill();
+      ctx.beginPath(); ctx.moveTo(10, 33); ctx.lineTo(50, 56); ctx.lineTo(50, 93); ctx.lineTo(10, 70); ctx.closePath();
+      ctx.fillStyle = '#1A1A1A'; ctx.fill();
+      ctx.beginPath(); ctx.moveTo(90, 33); ctx.lineTo(50, 56); ctx.lineTo(50, 93); ctx.lineTo(90, 70); ctx.closePath();
+      ctx.fillStyle = '#2D2D2D'; ctx.fill();
+      ctx.restore();
+    }
+  },
+  {
+    name: 'idr-logo-full-800',
+    width: 800,
+    height: 190,
+    draw(ctx, w, h) {
+      const s = h / 100;
+      ctx.save(); ctx.scale(s, s);
+
+      // Cube at left
+      const ox = 10;
+      ctx.beginPath(); ctx.moveTo(ox+45, 10); ctx.lineTo(ox+80, 30); ctx.lineTo(ox+45, 50); ctx.lineTo(ox+10, 30); ctx.closePath();
+      ctx.fillStyle = '#E8651A'; ctx.fill();
+      ctx.beginPath(); ctx.moveTo(ox+10, 30); ctx.lineTo(ox+45, 50); ctx.lineTo(ox+45, 82); ctx.lineTo(ox+10, 62); ctx.closePath();
+      ctx.fillStyle = '#1A1A1A'; ctx.fill();
+      ctx.beginPath(); ctx.moveTo(ox+80, 30); ctx.lineTo(ox+45, 50); ctx.lineTo(ox+45, 82); ctx.lineTo(ox+80, 62); ctx.closePath();
+      ctx.fillStyle = '#2D2D2D'; ctx.fill();
+
+      // IDR text
+      ctx.font = '600 38px Inter, Helvetica, Arial, sans-serif';
+      ctx.fillStyle = '#1A1A1A';
+      ctx.letterSpacing = '3px';
+      ctx.fillText('IDR', 105, 55);
+
+      // Subtitle
+      ctx.font = '300 13px Inter, Helvetica, Arial, sans-serif';
+      ctx.fillStyle = '#555555';
+      ctx.fillText('INSTITUTE OF DIGITAL RISK', 105, 76);
+      ctx.restore();
+    }
+  }
+];
+
+const container = document.getElementById('exports');
+
+logos.forEach(logo => {
+  const canvas = document.createElement('canvas');
+  canvas.width  = logo.width;
+  canvas.height = logo.height;
+  canvas.className = 'checkerboard';
+  const ctx = canvas.getContext('2d');
+  logo.draw(ctx, logo.width, logo.height);
+
+  const div = document.createElement('div');
+  div.className = 'export-item';
+  const label = document.createElement('p');
+  label.textContent = logo.name + ' (' + logo.width + '×' + logo.height + ')';
+  const link = document.createElement('a');
+  link.className = 'dl';
+  link.textContent = 'Download PNG';
+  link.download = logo.name + '.png';
+  link.href = canvas.toDataURL('image/png');
+
+  div.appendChild(canvas);
+  div.appendChild(label);
+  div.appendChild(link);
+  container.appendChild(div);
+});
+</script>
+</body>
+</html>

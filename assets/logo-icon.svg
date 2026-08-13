@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="120" height="120">
+  <defs>
+    <linearGradient id="faceLeft" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#1a1a1a"/>
+      <stop offset="100%" stop-color="#111111"/>
+    </linearGradient>
+    <linearGradient id="faceRight" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#2a2a2a"/>
+      <stop offset="100%" stop-color="#1a1a1a"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Isometric cube -->
+  <!-- Top face — orange -->
+  <polygon points="60,16 100,39 60,62 20,39" fill="#E8651A"/>
+  <!-- Left face — dark -->
+  <polygon points="20,39 60,62 60,104 20,81" fill="url(#faceLeft)"/>
+  <!-- Right face — slightly lighter dark -->
+  <polygon points="100,39 60,62 60,104 100,81" fill="url(#faceRight)"/>
+
+  <!-- Inner grid lines on top face for "structure" motif -->
+  <line x1="40" y1="27.5" x2="40" y2="50.5" stroke="#D45B15" stroke-width="0.8" opacity="0.5"
+        transform="skewY(27) translate(0,-22)"/>
+  <line x1="60" y1="39" x2="20" y2="50.5" stroke="#D45B15" stroke-width="0.6" opacity="0.4"/>
+  <line x1="60" y1="39" x2="100" y2="50.5" stroke="#D45B15" stroke-width="0.6" opacity="0.4"/>
+
+  <!-- Subtle edge highlights -->
+  <line x1="60" y1="16" x2="60" y2="62" stroke="#FF8C42" stroke-width="0.5" opacity="0.3"/>
+  <line x1="60" y1="62" x2="60" y2="104" stroke="#444" stroke-width="0.5" opacity="0.3"/>
+</svg>

@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32">
+  <!-- Akoin Favicon — simplified Flow A -->
+  <defs>
+    <linearGradient id="fg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#FFD54F"/>
+      <stop offset="100%" stop-color="#D4890A"/>
+    </linearGradient>
+  </defs>
+  <rect width="32" height="32" rx="8" fill="#111113"/>
+  <path d="M16 5 L6 27" stroke="url(#fg)" stroke-width="3.2" stroke-linecap="round" fill="none"/>
+  <path d="M16 5 L26 27" stroke="url(#fg)" stroke-width="3.2" stroke-linecap="round" fill="none"/>
+  <path d="M10 19 Q13 16 16 19 Q19 22 22 19" stroke="#FFD54F" stroke-width="2" stroke-linecap="round" fill="none"/>
+  <circle cx="16" cy="5" r="2.2" fill="#FFE082"/>
+  <circle cx="16" cy="5" r="1" fill="#FFF"/>
+</svg>

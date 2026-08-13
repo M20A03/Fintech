@@ -1,0 +1,854 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Akoin Fintech — Smart Finance for a Digital World</title>
+  <meta name="description" content="Akoin Fintech Private Limited — Gurgaon-based fintech company offering digital payments, lending platforms, risk analytics, blockchain solutions, and business banking." />
+  <link rel="icon" type="image/svg+xml" href="assets/akoin-favicon.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <!-- SCROLL PROGRESS BAR -->
+  <div class="scroll-progress" id="scroll-progress" aria-hidden="true"></div>
+
+  <!-- PRELOADER -->
+  <div class="preloader" id="preloader" aria-hidden="true">
+    <div class="preloader-inner">
+      <svg class="preloader-logo" viewBox="0 0 56 48" width="72" height="62" aria-hidden="true">
+        <defs>
+          <linearGradient id="pl-g" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#FFD54F"/><stop offset="50%" stop-color="#F0A500"/><stop offset="100%" stop-color="#D4890A"/>
+          </linearGradient>
+          <filter id="pl-glow"><feGaussianBlur stdDeviation="2" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+        </defs>
+        <path d="M28 5 L9 44" stroke="url(#pl-g)" stroke-width="4.5" stroke-linecap="round" fill="none" class="pl-leg pl-leg-l"/>
+        <path d="M28 5 L47 44" stroke="url(#pl-g)" stroke-width="4.5" stroke-linecap="round" fill="none" class="pl-leg pl-leg-r"/>
+        <path d="M15 30 Q21.5 25 28 30 Q34.5 35 41 30" stroke="#FFD54F" stroke-width="2.8" stroke-linecap="round" fill="none" class="pl-flow"/>
+        <circle cx="15" cy="30" r="3" fill="#F0A500" class="pl-node pl-node-1"/>
+        <circle cx="41" cy="30" r="3" fill="#FFD54F" class="pl-node pl-node-2"/>
+        <circle cx="28" cy="5" r="4" fill="#FFE082" filter="url(#pl-glow)" class="pl-spark"/>
+        <circle cx="28" cy="5" r="2" fill="#FFF"/>
+      </svg>
+      <div class="preloader-bar"><div class="preloader-progress"></div></div>
+      <p class="preloader-text">Loading Akoin Fintech...</p>
+    </div>
+  </div>
+
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <!-- ========== NAVBAR ========== -->
+  <header class="navbar" id="navbar">
+    <nav class="nav-wrap" aria-label="Primary">
+      <a href="#hero" class="logo" aria-label="Akoin Fintech — back to top">
+        <!-- Animated Flow A Logo -->
+        <svg class="logo-mark" viewBox="0 0 56 48" width="38" height="33" aria-hidden="true">
+          <defs>
+            <linearGradient id="nav-lg" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="var(--accent-alt)"/><stop offset="100%" stop-color="var(--accent)"/>
+            </linearGradient>
+            <linearGradient id="nav-lg2" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" stop-color="var(--accent)"/><stop offset="50%" stop-color="var(--accent-alt)"/><stop offset="100%" stop-color="var(--accent)"/>
+            </linearGradient>
+          </defs>
+          <path d="M28 5 L9 44" stroke="url(#nav-lg)" stroke-width="4.5" stroke-linecap="round" fill="none"/>
+          <path d="M28 5 L47 44" stroke="url(#nav-lg)" stroke-width="4.5" stroke-linecap="round" fill="none"/>
+          <path d="M15 30 Q21.5 25 28 30 Q34.5 35 41 30" stroke="url(#nav-lg2)" stroke-width="2.8" stroke-linecap="round" fill="none" class="logo-flow"/>
+          <circle cx="15" cy="30" r="2.5" fill="var(--accent)" class="logo-node ln-1"/>
+          <circle cx="41" cy="30" r="2.5" fill="var(--accent-alt)" class="logo-node ln-2"/>
+          <circle cx="28" cy="5" r="3" fill="var(--accent-alt)" class="logo-spark" opacity="0.9"/>
+          <circle cx="28" cy="5" r="1.5" fill="#FFF" opacity="0.85"/>
+        </svg>
+        <span class="logo-text">Akoin<span class="logo-dot">.</span></span>
+      </a>
+
+      <ul class="nav-links" id="nav-links" role="list">
+        <li><a href="#hero" class="nav-link active">Home</a></li>
+        <li><a href="#about" class="nav-link">About</a></li>
+        <li><a href="#products" class="nav-link">Products</a></li>
+        <li><a href="#services" class="nav-link">Services</a></li>
+        <li><a href="#industries" class="nav-link">Industries</a></li>
+        <li><a href="#pricing" class="nav-link">Pricing</a></li>
+        <li><a href="#contact" class="nav-link">Contact</a></li>
+      </ul>
+
+      <div class="nav-actions">
+        <button class="theme-toggle" id="theme-toggle" aria-label="Toggle dark mode" title="Toggle dark / light mode">
+          <svg class="icon-sun" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><circle cx="12" cy="12" r="5" fill="none" stroke="currentColor" stroke-width="2"/><g stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></g></svg>
+          <svg class="icon-moon" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M21 12.79A9 9 0 0 1 11.21 3 7 7 0 1 0 21 12.79z" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <a href="#contact" class="btn btn-primary btn-nav-cta">Get Started</a>
+        <button class="hamburger" id="hamburger" aria-expanded="false" aria-controls="nav-links" aria-label="Open menu">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </nav>
+  </header>
+
+  <!-- ========== MAIN ========== -->
+  <main id="main-content">
+
+    <!-- HERO -->
+    <section class="hero" id="hero">
+      <!-- Animated gradient mesh background -->
+      <div class="hero-mesh" aria-hidden="true">
+        <div class="mesh-orb orb-1"></div>
+        <div class="mesh-orb orb-2"></div>
+        <div class="mesh-orb orb-3"></div>
+      </div>
+      <!-- Dot grid pattern overlay -->
+      <div class="hero-dots" aria-hidden="true"></div>
+
+      <div class="container hero-grid">
+        <div class="hero-text reveal">
+          <span class="hero-tag">Gurgaon-based Fintech Company &bull; Est. 2023</span>
+          <h1>The Future of<br/><span class="gradient-text animated-gradient" id="typed-text">Digital Payments</span><span class="cursor" aria-hidden="true">|</span></h1>
+          <p class="hero-desc">Akoin Fintech builds next-generation financial technology — from payment gateways and lending platforms to AI-driven risk analytics and business banking — empowering businesses across India to move money smarter, faster, and safer.</p>
+          <div class="hero-btns">
+            <a href="#products" class="btn btn-primary btn-ripple">Explore Products</a>
+            <a href="#contact" class="btn btn-outline btn-ripple">Book a Demo</a>
+          </div>
+          <div class="hero-trust">
+            <div class="trust-item"><strong>CIN</strong><span>U74999HR2023PTC</span></div>
+            <div class="trust-item"><strong>Est.</strong><span>2023</span></div>
+            <div class="trust-item"><strong>HQ</strong><span>Gurgaon, HR</span></div>
+            <div class="trust-item"><strong>Compliance</strong><span>RBI &bull; PCI-DSS</span></div>
+          </div>
+        </div>
+        <div class="hero-visual reveal reveal-right" aria-hidden="true">
+          <!-- Large animated Flow A logo as hero illustration -->
+          <svg class="hero-logo-anim" viewBox="0 0 280 240" width="380" height="325">
+            <defs>
+              <linearGradient id="hero-g" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#FFD54F"/><stop offset="50%" stop-color="#F0A500"/><stop offset="100%" stop-color="#D4890A"/>
+              </linearGradient>
+              <linearGradient id="hero-g2" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stop-color="#D4890A"/><stop offset="50%" stop-color="#FFE082"/><stop offset="100%" stop-color="#F0A500"/>
+              </linearGradient>
+              <filter id="hero-glow"><feGaussianBlur stdDeviation="6" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+              <filter id="hero-glow-sm"><feGaussianBlur stdDeviation="3" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+            </defs>
+            <!-- Outer orbital rings -->
+            <ellipse cx="140" cy="130" rx="130" ry="45" fill="none" stroke="url(#hero-g)" stroke-width="0.8" opacity="0.2" stroke-dasharray="6 8" class="orbit orbit-1"/>
+            <ellipse cx="140" cy="130" rx="110" ry="60" fill="none" stroke="url(#hero-g)" stroke-width="0.6" opacity="0.15" stroke-dasharray="4 10" transform="rotate(20,140,130)" class="orbit orbit-2"/>
+            <!-- Main A structure -->
+            <path d="M140 25 L45 215" stroke="url(#hero-g)" stroke-width="12" stroke-linecap="round" fill="none" class="a-leg a-leg-l"/>
+            <path d="M140 25 L235 215" stroke="url(#hero-g)" stroke-width="12" stroke-linecap="round" fill="none" class="a-leg a-leg-r"/>
+            <!-- Flow crossbar (animated wave) -->
+            <path d="M75 150 Q107 130 140 150 Q173 170 205 150" stroke="url(#hero-g2)" stroke-width="6" stroke-linecap="round" fill="none" class="hero-flow-line"/>
+            <!-- Transaction nodes on the flow -->
+            <circle cx="75" cy="150" r="8" fill="#F0A500" filter="url(#hero-glow-sm)" class="hero-node hn-1"/>
+            <circle cx="140" cy="150" r="6" fill="#FFD54F" filter="url(#hero-glow-sm)" class="hero-node hn-2"/>
+            <circle cx="205" cy="150" r="8" fill="#FFE082" filter="url(#hero-glow-sm)" class="hero-node hn-3"/>
+            <!-- Node labels -->
+            <text x="75" y="175" text-anchor="middle" fill="var(--text-muted)" font-size="10" font-family="Inter,sans-serif">PAY</text>
+            <text x="140" y="175" text-anchor="middle" fill="var(--text-muted)" font-size="10" font-family="Inter,sans-serif">BANK</text>
+            <text x="205" y="175" text-anchor="middle" fill="var(--text-muted)" font-size="10" font-family="Inter,sans-serif">LEND</text>
+            <!-- Apex spark (innovation) -->
+            <circle cx="140" cy="25" r="14" fill="#FFE082" filter="url(#hero-glow)" opacity="0.5" class="hero-spark-outer"/>
+            <circle cx="140" cy="25" r="8" fill="#FFD54F" class="hero-spark-mid"/>
+            <circle cx="140" cy="25" r="4" fill="#FFF"/>
+            <!-- Orbiting particles -->
+            <circle r="3" fill="#F0A500" opacity="0.7" class="orbit-particle op-1"><animateMotion dur="8s" repeatCount="indefinite" path="M270,130 A130,45 0 1,0 10,130 A130,45 0 1,0 270,130"/></circle>
+            <circle r="2.5" fill="#FFD54F" opacity="0.6" class="orbit-particle op-2"><animateMotion dur="12s" repeatCount="indefinite" path="M250,130 A110,60 20 1,0 30,130 A110,60 20 1,0 250,130"/></circle>
+          </svg>
+          <div class="glow-blob blob-1"></div>
+          <div class="glow-blob blob-2"></div>
+        </div>
+      </div>
+      <div class="hero-wave" aria-hidden="true">
+        <svg viewBox="0 0 1440 120" preserveAspectRatio="none"><path d="M0,60 C360,120 1080,0 1440,60 L1440,120 L0,120 Z" fill="var(--bg)"/></svg>
+      </div>
+    </section>
+
+    <!-- STATS BAR -->
+    <section class="stats-bar" aria-label="Key numbers">
+      <div class="container stats-grid">
+        <div class="stat-item reveal"><span class="stat-num" data-target="500" data-suffix="+">0</span><span class="stat-label">Businesses Served</span></div>
+        <div class="stat-item reveal"><span class="stat-num" data-target="10" data-suffix="M+">0</span><span class="stat-label">Transactions Processed</span></div>
+        <div class="stat-item reveal"><span class="stat-num" data-target="99" data-suffix=".9%">0</span><span class="stat-label">Uptime Guarantee</span></div>
+        <div class="stat-item reveal"><span class="stat-num" data-target="50" data-suffix="+">0</span><span class="stat-label">Team Members</span></div>
+        <div class="stat-item reveal"><span class="stat-num" data-target="24" data-suffix="/7">0</span><span class="stat-label">Support Available</span></div>
+      </div>
+    </section>
+
+    <!-- CLIENT LOGOS MARQUEE -->
+    <section class="marquee-section" aria-label="Trusted by">
+      <div class="marquee-label">Trusted by innovative companies across India</div>
+      <div class="marquee-track" aria-hidden="true">
+        <div class="marquee-content">
+          <span class="marquee-item">ShopEase</span>
+          <span class="marquee-item">TechNova Solutions</span>
+          <span class="marquee-item">FinServe NBFC</span>
+          <span class="marquee-item">QuickBill India</span>
+          <span class="marquee-item">MedCare Health</span>
+          <span class="marquee-item">EduLearn Pro</span>
+          <span class="marquee-item">TravelMate</span>
+          <span class="marquee-item">GreenCart Retail</span>
+          <span class="marquee-item">PaySure Tech</span>
+          <span class="marquee-item">CloudLogix</span>
+          <!-- Duplicated for seamless loop -->
+          <span class="marquee-item">ShopEase</span>
+          <span class="marquee-item">TechNova Solutions</span>
+          <span class="marquee-item">FinServe NBFC</span>
+          <span class="marquee-item">QuickBill India</span>
+          <span class="marquee-item">MedCare Health</span>
+          <span class="marquee-item">EduLearn Pro</span>
+          <span class="marquee-item">TravelMate</span>
+          <span class="marquee-item">GreenCart Retail</span>
+          <span class="marquee-item">PaySure Tech</span>
+          <span class="marquee-item">CloudLogix</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ABOUT -->
+    <section class="section" id="about">
+      <div class="container">
+        <div class="section-header reveal">
+          <span class="section-tag">Who We Are</span>
+          <h2>About Akoin Fintech</h2>
+          <p class="section-desc">Gurgaon's fastest-growing fintech — building the infrastructure that powers India's digital economy.</p>
+        </div>
+        <div class="about-grid">
+          <div class="about-text reveal">
+            <p><strong>Akoin Fintech Private Limited</strong> is a Gurgaon-based financial technology company incorporated in 2023 (CIN: U74999HR2023PTC). We are on a mission to democratise access to modern financial services through technology — making payments faster, lending smarter, and financial data more actionable for businesses of every size.</p>
+            <p>Our team combines deep expertise in banking, software engineering, data science, and regulatory compliance to deliver solutions that are secure, scalable, and built for India's rapidly evolving digital economy.</p>
+            <div class="about-badges">
+              <div class="badge"><svg viewBox="0 0 24 24" width="20" height="20"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" fill="none" stroke="currentColor" stroke-width="2"/></svg>PCI-DSS Compliant</div>
+              <div class="badge"><svg viewBox="0 0 24 24" width="20" height="20"><path d="M9 11l3 3L22 4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11" fill="none" stroke="currentColor" stroke-width="2"/></svg>RBI Regulated</div>
+              <div class="badge"><svg viewBox="0 0 24 24" width="20" height="20"><circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 6v6l4 2" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>99.9% Uptime</div>
+              <div class="badge"><svg viewBox="0 0 24 24" width="20" height="20"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="9" cy="7" r="4" fill="none" stroke="currentColor" stroke-width="2"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75" fill="none" stroke="currentColor" stroke-width="2"/></svg>50+ Team Members</div>
+            </div>
+          </div>
+          <div class="about-visual reveal reveal-right" aria-hidden="true">
+            <div class="about-card-stack">
+              <div class="about-feature-card glass-card tilt-card">
+                <div class="afc-icon" style="background:#E8F5E9;color:#2E7D32">
+                  <svg viewBox="0 0 24 24" width="24" height="24"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" fill="none" stroke="currentColor" stroke-width="2"/><path d="M22 4L12 14.01l-3-3" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </div>
+                <div><strong>Instant Onboarding</strong><span>Go live in minutes, not weeks</span></div>
+              </div>
+              <div class="about-feature-card glass-card tilt-card">
+                <div class="afc-icon" style="background:#E3F2FD;color:#1565C0">
+                  <svg viewBox="0 0 24 24" width="24" height="24"><rect x="2" y="3" width="20" height="14" rx="2" fill="none" stroke="currentColor" stroke-width="2"/><line x1="8" y1="21" x2="16" y2="21" stroke="currentColor" stroke-width="2"/><line x1="12" y1="17" x2="12" y2="21" stroke="currentColor" stroke-width="2"/></svg>
+                </div>
+                <div><strong>Smart Dashboard</strong><span>Real-time analytics &amp; insights</span></div>
+              </div>
+              <div class="about-feature-card glass-card tilt-card">
+                <div class="afc-icon" style="background:#FFF3E0;color:#E65100">
+                  <svg viewBox="0 0 24 24" width="24" height="24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" fill="none" stroke="currentColor" stroke-width="2"/></svg>
+                </div>
+                <div><strong>Bank-Grade Security</strong><span>256-bit encryption end-to-end</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PRODUCTS -->
+    <section class="section section-alt" id="products">
+      <div class="container">
+        <div class="section-header reveal">
+          <span class="section-tag">Our Products</span>
+          <h2>Complete Financial Infrastructure</h2>
+          <p class="section-desc">Everything your business needs to accept payments, make payouts, manage finances, and grow — all in one platform.</p>
+        </div>
+        <div class="product-tabs">
+          <div class="tab-nav reveal" role="tablist" aria-label="Product categories">
+            <button class="tab-btn active" role="tab" aria-selected="true" data-tab="accept">Accept Payments</button>
+            <button class="tab-btn" role="tab" aria-selected="false" data-tab="payout">Make Payouts</button>
+            <button class="tab-btn" role="tab" aria-selected="false" data-tab="banking">Business Banking</button>
+            <button class="tab-btn" role="tab" aria-selected="false" data-tab="lending">Lending &amp; Credit</button>
+          </div>
+          <div class="tab-panels">
+            <!-- Accept Payments -->
+            <div class="tab-panel active" id="tab-accept" role="tabpanel">
+              <div class="product-grid reveal">
+                <article class="product-card tilt-card">
+                  <div class="product-icon pi-blue"><svg viewBox="0 0 24 24" width="28" height="28"><rect x="2" y="5" width="20" height="14" rx="2" fill="none" stroke="currentColor" stroke-width="2"/><line x1="2" y1="10" x2="22" y2="10" stroke="currentColor" stroke-width="2"/></svg></div>
+                  <h3>Payment Gateway</h3>
+                  <p>Accept payments on your website, app, or social media. Support for UPI, cards, net banking, wallets, and EMI — all through a single integration.</p>
+                  <span class="product-tag">Most Popular</span>
+                </article>
+                <article class="product-card tilt-card">
+                  <div class="product-icon pi-green"><svg viewBox="0 0 24 24" width="28" height="28"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></div>
+                  <h3>Payment Links</h3>
+                  <p>Share payment links via WhatsApp, SMS, or email. Collect money instantly without a website — perfect for freelancers and small businesses.</p>
+                </article>
+                <article class="product-card tilt-card">
+                  <div class="product-icon pi-purple"><svg viewBox="0 0 24 24" width="28" height="28"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" fill="none" stroke="currentColor" stroke-width="2"/></svg></div>
+                  <h3>Payment Pages</h3>
+                  <p>Create branded, no-code payment pages in minutes. Accept donations, fees, subscriptions, and one-time payments without any technical setup.</p>
+                </article>
+                <article class="product-card tilt-card">
+                  <div class="product-icon pi-orange"><svg viewBox="0 0 24 24" width="28" height="28"><path d="M12 1v22M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+                  <h3>Subscriptions</h3>
+                  <p>Automate recurring payments with flexible billing cycles. Handle upgrades, downgrades, and retries seamlessly with smart retry logic.</p>
+                </article>
+                <article class="product-card tilt-card">
+                  <div class="product-icon pi-teal"><svg viewBox="0 0 24 24" width="28" height="28"><rect x="1" y="4" width="22" height="16" rx="2" fill="none" stroke="currentColor" stroke-width="2"/><line x1="1" y1="10" x2="23" y2="10" stroke="currentColor" stroke-width="2"/></svg></div>
+                  <h3>UPI AutoPay</h3>
+                  <p>Enable mandate-based UPI payments for recurring charges. Utility bills, SIP investments, insurance premiums — automate them all.</p>
+                </article>
+                <article class="product-card tilt-card">
+                  <div class="product-icon pi-red"><svg viewBox="0 0 24 24" width="28" height="28"><circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-width="2"/><line x1="2" y1="12" x2="22" y2="12" stroke="currentColor" stroke-width="2"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" fill="none" stroke="currentColor" stroke-width="2"/></svg></div>
+                  <h3>International Payments</h3>
+                  <p>Accept payments from 100+ countries. Multi-currency support, dynamic currency conversion, and instant settlements in INR.</p>
+                </article>
+              </div>
+            </div>
+            <!-- Make Payouts -->
+            <div class="tab-panel" id="tab-payout" role="tabpanel">
+              <div class="product-grid reveal">
+                <article class="product-card tilt-card">
+                  <div class="product-icon pi-green"><svg viewBox="0 0 24 24" width="28" height="28"><line x1="12" y1="1" x2="12" y2="23" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></div>
+                  <h3>Bulk Payouts</h3>
+                  <p>Disburse payments to thousands of vendors, partners, or employees instantly via IMPS, NEFT, RTGS, or UPI — all from a single dashboard.</p>
+                  <span class="product-tag">Enterprise</span>
+                </article>
+                <article class="product-card tilt-card">
+                  <div class="product-icon pi-blue"><svg viewBox="0 0 24 24" width="28" height="28"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></div>
+                  <h3>Payout Links</h3>
+                  <p>Send money via links — recipients choose their preferred bank. No bank details required upfront. Perfect for refunds and rewards.</p>
+                </article>
+                <article class="product-card tilt-card">
+                  <div class="product-icon pi-orange"><svg viewBox="0 0 24 24" width="28" height="28"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="8.5" cy="7" r="4" fill="none" stroke="currentColor" stroke-width="2"/><line x1="20" y1="8" x2="20" y2="14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><line x1="23" y1="11" x2="17" y2="11" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></div>
+                  <h3>Vendor Payments</h3>
+                  <p>Manage your entire vendor lifecycle — invoices, approvals, tax compliance, and instant settlements with complete audit trails.</p>
+                </article>
+                <article class="product-card tilt-card">
+                  <div class="product-icon pi-purple"><svg viewBox="0 0 24 24" width="28" height="28"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z" fill="none" stroke="currentColor" stroke-width="2"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z" fill="none" stroke="currentColor" stroke-width="2"/></svg></div>
+                  <h3>Payroll Automation</h3>
+                  <p>Run payroll for your team in minutes. Automatic TDS calculation, PF/ESI compliance, payslip generation, and direct bank transfers.</p>
+                </article>
+              </div>
+            </div>
+            <!-- Business Banking -->
+            <div class="tab-panel" id="tab-banking" role="tabpanel">
+              <div class="product-grid reveal">
+                <article class="product-card tilt-card">
+                  <div class="product-icon pi-teal"><svg viewBox="0 0 24 24" width="28" height="28"><path d="M3 21h18M3 10h18M5 6l7-3 7 3M4 10v11M20 10v11M8 14v3M12 14v3M16 14v3" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+                  <h3>Current Account</h3>
+                  <p>A fully digital current account designed for modern businesses. Earn interest, set up auto-sweeps, and manage cash flow with smart tools.</p>
+                  <span class="product-tag">New</span>
+                </article>
+                <article class="product-card tilt-card">
+                  <div class="product-icon pi-blue"><svg viewBox="0 0 24 24" width="28" height="28"><rect x="2" y="7" width="20" height="14" rx="2" fill="none" stroke="currentColor" stroke-width="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2" fill="none" stroke="currentColor" stroke-width="2"/><line x1="12" y1="12" x2="12" y2="16" stroke="currentColor" stroke-width="2"/></svg></div>
+                  <h3>Escrow Account</h3>
+                  <p>Hold funds securely between parties until conditions are met. Ideal for marketplaces, real estate, and B2B trade settlements.</p>
+                </article>
+                <article class="product-card tilt-card">
+                  <div class="product-icon pi-green"><svg viewBox="0 0 24 24" width="28" height="28"><circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-width="2"/><line x1="2" y1="12" x2="22" y2="12" stroke="currentColor" stroke-width="2"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10" fill="none" stroke="currentColor" stroke-width="2"/></svg></div>
+                  <h3>Forex Management</h3>
+                  <p>Real-time exchange rates, automated hedging, and seamless cross-border transfers for businesses operating internationally.</p>
+                </article>
+                <article class="product-card tilt-card">
+                  <div class="product-icon pi-orange"><svg viewBox="0 0 24 24" width="28" height="28"><rect x="1" y="4" width="22" height="16" rx="2" fill="none" stroke="currentColor" stroke-width="2"/><line x1="1" y1="10" x2="23" y2="10" stroke="currentColor" stroke-width="2"/></svg></div>
+                  <h3>Corporate Cards</h3>
+                  <p>Issue virtual &amp; physical corporate cards with custom spending limits, department budgets, and real-time expense tracking.</p>
+                </article>
+              </div>
+            </div>
+            <!-- Lending & Credit -->
+            <div class="tab-panel" id="tab-lending" role="tabpanel">
+              <div class="product-grid reveal">
+                <article class="product-card tilt-card">
+                  <div class="product-icon pi-red"><svg viewBox="0 0 24 24" width="28" height="28"><path d="M22 12h-4l-3 9L9 3l-3 9H2" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+                  <h3>Instant Settlements</h3>
+                  <p>Get your money faster — access funds within minutes of a payment, not days. Choose T+0 instant or scheduled settlements.</p>
+                  <span class="product-tag">Fast</span>
+                </article>
+                <article class="product-card tilt-card">
+                  <div class="product-icon pi-purple"><svg viewBox="0 0 24 24" width="28" height="28"><path d="M12 1v22M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></div>
+                  <h3>Working Capital Loans</h3>
+                  <p>AI-powered credit assessment based on your transaction data. Get pre-approved business loans of up to &#8377;50 lakhs in under 5 minutes.</p>
+                </article>
+                <article class="product-card tilt-card">
+                  <div class="product-icon pi-teal"><svg viewBox="0 0 24 24" width="28" height="28"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" fill="none" stroke="currentColor" stroke-width="2"/></svg></div>
+                  <h3>Buy Now Pay Later</h3>
+                  <p>Offer your customers flexible pay-later options at checkout. Increase conversions by 30% with zero-risk to your business.</p>
+                </article>
+                <article class="product-card tilt-card">
+                  <div class="product-icon pi-blue"><svg viewBox="0 0 24 24" width="28" height="28"><circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 6v6l4 2" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></div>
+                  <h3>EMI Options</h3>
+                  <p>Enable no-cost and low-cost EMI options on credit &amp; debit cards. Make high-value purchases affordable for every customer.</p>
+                </article>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- HOW IT WORKS -->
+    <section class="section" id="how-it-works">
+      <div class="container">
+        <div class="section-header reveal">
+          <span class="section-tag">Getting Started</span>
+          <h2>How It Works</h2>
+          <p class="section-desc">Get started in 3 simple steps — no complex paperwork, no lengthy approvals.</p>
+        </div>
+        <div class="steps-timeline">
+          <div class="step-card reveal tilt-card" style="--delay:0s">
+            <div class="step-number">1</div>
+            <div class="step-line" aria-hidden="true"></div>
+            <h3>Sign Up &amp; Verify</h3>
+            <p>Create your account in 2 minutes. Submit your PAN, GSTIN, and bank details for instant KYC verification.</p>
+          </div>
+          <div class="step-card reveal tilt-card" style="--delay:.15s">
+            <div class="step-number">2</div>
+            <div class="step-line" aria-hidden="true"></div>
+            <h3>Integrate &amp; Configure</h3>
+            <p>Choose from our ready-made plugins, no-code tools, or developer APIs. Integrate in minutes with our SDKs.</p>
+          </div>
+          <div class="step-card reveal tilt-card" style="--delay:.3s">
+            <div class="step-number">3</div>
+            <h3>Go Live &amp; Grow</h3>
+            <p>Start accepting payments instantly. Scale from &#8377;100 to &#8377;100 crore with the same platform.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SERVICES -->
+    <section class="section section-alt" id="services">
+      <div class="container">
+        <div class="section-header reveal">
+          <span class="section-tag">What We Do</span>
+          <h2>Our Services</h2>
+          <p class="section-desc">End-to-end fintech solutions designed for speed, security and scale.</p>
+        </div>
+        <div class="services-grid">
+          <article class="service-card reveal tilt-card" style="--delay:0s">
+            <div class="service-icon"><svg viewBox="0 0 48 48" width="40" height="40"><rect x="6" y="14" width="36" height="24" rx="4" fill="none" stroke="var(--accent)" stroke-width="2.5"/><line x1="6" y1="22" x2="42" y2="22" stroke="var(--accent)" stroke-width="2"/><rect x="12" y="28" width="10" height="4" rx="1" fill="var(--accent)" opacity="0.4"/></svg></div>
+            <h3>Digital Payments</h3>
+            <p>UPI, wallets, card processing and payment gateway integrations — fast, secure and RBI-compliant. Accept payments through 100+ modes.</p>
+          </article>
+          <article class="service-card reveal tilt-card" style="--delay:.1s">
+            <div class="service-icon"><svg viewBox="0 0 48 48" width="40" height="40"><circle cx="24" cy="24" r="18" fill="none" stroke="var(--accent)" stroke-width="2.5"/><path d="M24 14v10l7 5" fill="none" stroke="var(--accent)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+            <h3>Lending Platform</h3>
+            <p>AI-powered credit scoring, digital KYC and instant disbursement. Automated underwriting reduces approval time to under 5 minutes.</p>
+          </article>
+          <article class="service-card reveal tilt-card" style="--delay:.2s">
+            <div class="service-icon"><svg viewBox="0 0 48 48" width="40" height="40"><path d="M12 36 L12 20 L18 20 L18 36 M21 36 L21 14 L27 14 L27 36 M30 36 L30 24 L36 24 L36 36" fill="none" stroke="var(--accent)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+            <h3>Risk Analytics</h3>
+            <p>Real-time fraud detection, transaction monitoring and portfolio risk dashboards powered by ML models.</p>
+          </article>
+          <article class="service-card reveal tilt-card" style="--delay:.3s">
+            <div class="service-icon"><svg viewBox="0 0 48 48" width="40" height="40"><polygon points="24,4 44,14 44,34 24,44 4,34 4,14" fill="none" stroke="var(--accent)" stroke-width="2.5"/><polygon points="24,12 36,18 36,30 24,36 12,30 12,18" fill="none" stroke="var(--accent)" stroke-width="1.5" opacity="0.5"/></svg></div>
+            <h3>Blockchain &amp; Web3</h3>
+            <p>Tokenisation, smart contracts and decentralised finance solutions for next-gen financial products.</p>
+          </article>
+          <article class="service-card reveal tilt-card" style="--delay:.4s">
+            <div class="service-icon"><svg viewBox="0 0 48 48" width="40" height="40"><rect x="8" y="6" width="32" height="36" rx="3" fill="none" stroke="var(--accent)" stroke-width="2.5"/><line x1="16" y1="16" x2="32" y2="16" stroke="var(--accent)" stroke-width="2"/><line x1="16" y1="22" x2="28" y2="22" stroke="var(--accent)" stroke-width="1.5" opacity="0.6"/><line x1="16" y1="28" x2="24" y2="28" stroke="var(--accent)" stroke-width="1.5" opacity="0.4"/></svg></div>
+            <h3>Regulatory Compliance</h3>
+            <p>Automated compliance workflows for RBI, SEBI and IRDAI — real-time monitoring and audit-ready docs.</p>
+          </article>
+          <article class="service-card reveal tilt-card" style="--delay:.5s">
+            <div class="service-icon"><svg viewBox="0 0 48 48" width="40" height="40"><path d="M16 34 C16 34 10 28 10 22 C10 14.3 16.3 8 24 8 C31.7 8 38 14.3 38 22 C38 28 32 34 32 34" fill="none" stroke="var(--accent)" stroke-width="2.5" stroke-linecap="round"/><line x1="18" y1="38" x2="30" y2="38" stroke="var(--accent)" stroke-width="2.5" stroke-linecap="round"/><line x1="20" y1="42" x2="28" y2="42" stroke="var(--accent)" stroke-width="2" stroke-linecap="round"/></svg></div>
+            <h3>Consulting &amp; Strategy</h3>
+            <p>Fintech roadmaps, digital transformation advisory and technology architecture design for banks and NBFCs.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- INDUSTRY SOLUTIONS -->
+    <section class="section" id="industries">
+      <div class="container">
+        <div class="section-header reveal">
+          <span class="section-tag">Industry Solutions</span>
+          <h2>Built for Every Business</h2>
+          <p class="section-desc">Tailored payment and financial solutions for India's fastest-growing industries.</p>
+        </div>
+        <div class="industry-grid">
+          <article class="industry-card reveal tilt-card" style="--delay:0s">
+            <div class="industry-icon"><svg viewBox="0 0 24 24" width="32" height="32"><circle cx="9" cy="21" r="1" fill="currentColor"/><circle cx="20" cy="21" r="1" fill="currentColor"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+            <h3>E-Commerce &amp; Retail</h3>
+            <p>Payment gateway, checkout optimization, fraud prevention, and COD management.</p>
+          </article>
+          <article class="industry-card reveal tilt-card" style="--delay:.08s">
+            <div class="industry-icon"><svg viewBox="0 0 24 24" width="32" height="32"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" fill="none" stroke="currentColor" stroke-width="2"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" fill="none" stroke="currentColor" stroke-width="2"/></svg></div>
+            <h3>Education</h3>
+            <p>Fee collection, scholarship disbursements, EMI options for courses, and parent payment portals.</p>
+          </article>
+          <article class="industry-card reveal tilt-card" style="--delay:.16s">
+            <div class="industry-icon"><svg viewBox="0 0 24 24" width="32" height="32"><path d="M3 21h18M3 10h18M5 6l7-3 7 3M4 10v11M20 10v11M8 14v3M12 14v3M16 14v3" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+            <h3>BFSI</h3>
+            <p>Core banking integrations, loan origination, insurance premium collection, and investment payments.</p>
+          </article>
+          <article class="industry-card reveal tilt-card" style="--delay:.24s">
+            <div class="industry-icon"><svg viewBox="0 0 24 24" width="32" height="32"><path d="M22 12h-4l-3 9L9 3l-3 9H2" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+            <h3>Healthcare</h3>
+            <p>Patient billing, insurance claim processing, telemedicine payments, and pharmacy subscriptions.</p>
+          </article>
+          <article class="industry-card reveal tilt-card" style="--delay:.32s">
+            <div class="industry-icon"><svg viewBox="0 0 24 24" width="32" height="32"><rect x="2" y="3" width="20" height="14" rx="2" fill="none" stroke="currentColor" stroke-width="2"/><line x1="8" y1="21" x2="16" y2="21" stroke="currentColor" stroke-width="2"/><line x1="12" y1="17" x2="12" y2="21" stroke="currentColor" stroke-width="2"/></svg></div>
+            <h3>SaaS &amp; Technology</h3>
+            <p>Subscription billing, usage-based metering, multi-currency invoicing, and developer-friendly APIs.</p>
+          </article>
+          <article class="industry-card reveal tilt-card" style="--delay:.4s">
+            <div class="industry-icon"><svg viewBox="0 0 24 24" width="32" height="32"><path d="M12 22s-8-4.5-8-11.8A8 8 0 0 1 12 2a8 8 0 0 1 8 8.2c0 7.3-8 11.8-8 11.8z" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="10" r="3" fill="none" stroke="currentColor" stroke-width="2"/></svg></div>
+            <h3>Travel &amp; Logistics</h3>
+            <p>Multi-vendor payouts, split settlements, dynamic pricing support, and cross-border payments.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- DEVELOPER SECTION -->
+    <section class="section section-alt" id="developers">
+      <div class="container">
+        <div class="dev-split">
+          <div class="dev-text reveal">
+            <span class="section-tag">For Developers</span>
+            <h2>Build with Powerful APIs</h2>
+            <p>Our developer-first platform provides clean RESTful APIs, detailed documentation, and SDKs in every major language. Go from zero to live integration in under an hour.</p>
+            <ul class="dev-features">
+              <li><svg viewBox="0 0 24 24" width="18" height="18"><polyline points="20 6 9 17 4 12" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>RESTful APIs with JSON responses</li>
+              <li><svg viewBox="0 0 24 24" width="18" height="18"><polyline points="20 6 9 17 4 12" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>SDKs for Node.js, Python, Java, PHP, Go</li>
+              <li><svg viewBox="0 0 24 24" width="18" height="18"><polyline points="20 6 9 17 4 12" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Webhooks with retry &amp; signature verification</li>
+              <li><svg viewBox="0 0 24 24" width="18" height="18"><polyline points="20 6 9 17 4 12" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Sandbox environment with test credentials</li>
+              <li><svg viewBox="0 0 24 24" width="18" height="18"><polyline points="20 6 9 17 4 12" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Idempotent requests &amp; built-in rate limiting</li>
+            </ul>
+            <div class="dev-btns">
+              <a href="#contact" class="btn btn-primary btn-ripple">Read API Docs</a>
+              <a href="#contact" class="btn btn-outline btn-ripple">View on GitHub</a>
+            </div>
+          </div>
+          <div class="dev-code reveal reveal-right" aria-hidden="true">
+            <div class="code-window glass-card">
+              <div class="code-dots"><span></span><span></span><span></span></div>
+              <pre><code><span class="code-kw">const</span> akoin = <span class="code-fn">require</span>(<span class="code-str">'akoin-sdk'</span>);
+
+<span class="code-kw">const</span> payment = <span class="code-kw">await</span> akoin.payments.<span class="code-fn">create</span>({
+  <span class="code-prop">amount</span>: <span class="code-num">50000</span>,       <span class="code-cmt">// &#8377;500.00</span>
+  <span class="code-prop">currency</span>: <span class="code-str">'INR'</span>,
+  <span class="code-prop">method</span>: <span class="code-str">'upi'</span>,
+  <span class="code-prop">description</span>: <span class="code-str">'Order #1234'</span>,
+  <span class="code-prop">callback_url</span>: <span class="code-str">'https://yoursite.com/pay'</span>
+});
+
+<span class="code-cmt">// Payment ID: pay_AkXy1234567</span>
+console.<span class="code-fn">log</span>(payment.id);
+console.<span class="code-fn">log</span>(payment.status); <span class="code-cmt">// "created"</span></code></pre>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- WHY US -->
+    <section class="section" id="why">
+      <div class="container">
+        <div class="section-header reveal">
+          <span class="section-tag">Why Choose Us</span>
+          <h2>Built Different</h2>
+          <p class="section-desc">Here's what sets Akoin apart from every other fintech platform.</p>
+        </div>
+        <div class="why-grid">
+          <div class="why-card reveal tilt-card" style="--delay:0s"><div class="why-num">01</div><h3>Security First</h3><p>End-to-end encryption, SOC 2 practices, PCI-DSS compliance, and real-time fraud monitoring.</p></div>
+          <div class="why-card reveal tilt-card" style="--delay:.1s"><div class="why-num">02</div><h3>India-Ready</h3><p>Built for India's regulatory landscape — UPI, Aadhaar, GSTN, and RBI guidelines native.</p></div>
+          <div class="why-card reveal tilt-card" style="--delay:.15s"><div class="why-num">03</div><h3>Scalable Infra</h3><p>Cloud-native architecture handling millions of transactions per day with 99.9% uptime.</p></div>
+          <div class="why-card reveal tilt-card" style="--delay:.2s"><div class="why-num">04</div><h3>Fast Integration</h3><p>RESTful APIs, no-code tools, and SDKs in 5 languages — go live in days, not months.</p></div>
+          <div class="why-card reveal tilt-card" style="--delay:.25s"><div class="why-num">05</div><h3>24/7 Support</h3><p>Dedicated account managers, live chat, email, and phone support around the clock.</p></div>
+          <div class="why-card reveal tilt-card" style="--delay:.3s"><div class="why-num">06</div><h3>Transparent Pricing</h3><p>No hidden fees, no long-term contracts. Pay only for what you use with clear pricing.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TESTIMONIALS -->
+    <section class="section section-alt" id="testimonials">
+      <div class="container">
+        <div class="section-header reveal">
+          <span class="section-tag">What People Say</span>
+          <h2>Trusted by Growing Businesses</h2>
+        </div>
+        <div class="testimonial-slider" id="testimonial-slider">
+          <div class="testimonial-track" id="testimonial-track">
+            <div class="testimonial-card glass-card">
+              <div class="tc-stars" aria-label="5 out of 5 stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+              <p class="tc-quote">"Akoin's payment gateway reduced our checkout abandonment by 35%. The integration took less than a day and their APIs are incredibly well-documented."</p>
+              <div class="tc-author"><div class="tc-avatar">RS</div><div><strong>Rahul Sharma</strong><span>CTO, ShopEase</span></div></div>
+            </div>
+            <div class="testimonial-card glass-card">
+              <div class="tc-stars" aria-label="5 out of 5 stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+              <p class="tc-quote">"We switched from a legacy banking solution to Akoin's business banking platform. The dashboard alone saved our finance team 15 hours a week."</p>
+              <div class="tc-author"><div class="tc-avatar">PA</div><div><strong>Priya Agarwal</strong><span>CFO, TechNova Solutions</span></div></div>
+            </div>
+            <div class="testimonial-card glass-card">
+              <div class="tc-stars" aria-label="5 out of 5 stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+              <p class="tc-quote">"Their lending platform's AI credit scoring is remarkably accurate. We've reduced NPAs by 40% since integrating Akoin's risk analytics suite."</p>
+              <div class="tc-author"><div class="tc-avatar">AK</div><div><strong>Amit Kumar</strong><span>VP Lending, FinServe NBFC</span></div></div>
+            </div>
+            <div class="testimonial-card glass-card">
+              <div class="tc-stars" aria-label="5 out of 5 stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+              <p class="tc-quote">"As a startup, we needed a fintech partner who would scale with us. Akoin's transparent pricing and amazing support made them the obvious choice."</p>
+              <div class="tc-author"><div class="tc-avatar">MJ</div><div><strong>Meera Joshi</strong><span>Founder, QuickBill India</span></div></div>
+            </div>
+          </div>
+          <div class="testimonial-controls">
+            <button class="tc-btn tc-prev" aria-label="Previous testimonial"><svg viewBox="0 0 24 24" width="20" height="20"><path d="M15 18l-6-6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+            <div class="tc-dots" id="tc-dots"></div>
+            <button class="tc-btn tc-next" aria-label="Next testimonial"><svg viewBox="0 0 24 24" width="20" height="20"><path d="M9 18l6-6-6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PRICING -->
+    <section class="section" id="pricing">
+      <div class="container">
+        <div class="section-header reveal">
+          <span class="section-tag">Transparent Pricing</span>
+          <h2>Simple, Fair Pricing</h2>
+          <p class="section-desc">No hidden charges. No surprise fees. Scale as you grow.</p>
+        </div>
+        <div class="pricing-grid">
+          <article class="pricing-card reveal tilt-card" style="--delay:0s">
+            <div class="pricing-header"><h3>Starter</h3><p class="pricing-desc">For freelancers &amp; small businesses getting started.</p></div>
+            <div class="pricing-price"><span class="price-amount">1.9%</span><span class="price-period">per transaction</span></div>
+            <ul class="pricing-features">
+              <li><svg viewBox="0 0 24 24" width="16" height="16"><polyline points="20 6 9 17 4 12" fill="none" stroke="var(--accent)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Payment Gateway</li>
+              <li><svg viewBox="0 0 24 24" width="16" height="16"><polyline points="20 6 9 17 4 12" fill="none" stroke="var(--accent)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Payment Links</li>
+              <li><svg viewBox="0 0 24 24" width="16" height="16"><polyline points="20 6 9 17 4 12" fill="none" stroke="var(--accent)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>UPI, Cards, Net Banking</li>
+              <li><svg viewBox="0 0 24 24" width="16" height="16"><polyline points="20 6 9 17 4 12" fill="none" stroke="var(--accent)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Basic Analytics Dashboard</li>
+              <li><svg viewBox="0 0 24 24" width="16" height="16"><polyline points="20 6 9 17 4 12" fill="none" stroke="var(--accent)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Email Support</li>
+            </ul>
+            <a href="#contact" class="btn btn-outline btn-pricing btn-ripple">Get Started</a>
+          </article>
+          <article class="pricing-card pricing-popular reveal tilt-card" style="--delay:.12s">
+            <div class="pricing-badge">Most Popular</div>
+            <div class="pricing-header"><h3>Growth</h3><p class="pricing-desc">For growing businesses that need more power.</p></div>
+            <div class="pricing-price"><span class="price-amount">1.5%</span><span class="price-period">per transaction</span></div>
+            <ul class="pricing-features">
+              <li><svg viewBox="0 0 24 24" width="16" height="16"><polyline points="20 6 9 17 4 12" fill="none" stroke="var(--accent)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Everything in Starter</li>
+              <li><svg viewBox="0 0 24 24" width="16" height="16"><polyline points="20 6 9 17 4 12" fill="none" stroke="var(--accent)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Subscriptions &amp; Recurring</li>
+              <li><svg viewBox="0 0 24 24" width="16" height="16"><polyline points="20 6 9 17 4 12" fill="none" stroke="var(--accent)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Bulk Payouts</li>
+              <li><svg viewBox="0 0 24 24" width="16" height="16"><polyline points="20 6 9 17 4 12" fill="none" stroke="var(--accent)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Advanced Risk Analytics</li>
+              <li><svg viewBox="0 0 24 24" width="16" height="16"><polyline points="20 6 9 17 4 12" fill="none" stroke="var(--accent)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Priority Support (Chat + Email)</li>
+              <li><svg viewBox="0 0 24 24" width="16" height="16"><polyline points="20 6 9 17 4 12" fill="none" stroke="var(--accent)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Custom Checkout Branding</li>
+            </ul>
+            <a href="#contact" class="btn btn-primary btn-pricing btn-ripple">Get Started</a>
+          </article>
+          <article class="pricing-card reveal tilt-card" style="--delay:.24s">
+            <div class="pricing-header"><h3>Enterprise</h3><p class="pricing-desc">For large businesses with custom requirements.</p></div>
+            <div class="pricing-price"><span class="price-amount">Custom</span><span class="price-period">volume-based pricing</span></div>
+            <ul class="pricing-features">
+              <li><svg viewBox="0 0 24 24" width="16" height="16"><polyline points="20 6 9 17 4 12" fill="none" stroke="var(--accent)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Everything in Growth</li>
+              <li><svg viewBox="0 0 24 24" width="16" height="16"><polyline points="20 6 9 17 4 12" fill="none" stroke="var(--accent)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Business Banking Suite</li>
+              <li><svg viewBox="0 0 24 24" width="16" height="16"><polyline points="20 6 9 17 4 12" fill="none" stroke="var(--accent)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Instant Settlements (T+0)</li>
+              <li><svg viewBox="0 0 24 24" width="16" height="16"><polyline points="20 6 9 17 4 12" fill="none" stroke="var(--accent)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>International Payments</li>
+              <li><svg viewBox="0 0 24 24" width="16" height="16"><polyline points="20 6 9 17 4 12" fill="none" stroke="var(--accent)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Dedicated Account Manager</li>
+              <li><svg viewBox="0 0 24 24" width="16" height="16"><polyline points="20 6 9 17 4 12" fill="none" stroke="var(--accent)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Custom SLA &amp; On-Prem Options</li>
+            </ul>
+            <a href="#contact" class="btn btn-outline btn-pricing btn-ripple">Contact Sales</a>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="section section-alt" id="faq">
+      <div class="container">
+        <div class="section-header reveal">
+          <span class="section-tag">Help Center</span>
+          <h2>Frequently Asked Questions</h2>
+          <p class="section-desc">Quick answers to help you get started.</p>
+        </div>
+        <div class="faq-list reveal">
+          <details class="faq-item">
+            <summary class="faq-question"><span>What is Akoin Fintech and what do you offer?</span><svg class="faq-chevron" viewBox="0 0 24 24" width="20" height="20"><path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></summary>
+            <div class="faq-answer"><p>Akoin Fintech Private Limited is a Gurgaon-based financial technology company providing payment gateways, payment links, recurring billing, business banking, payouts, lending, risk analytics, and blockchain solutions for businesses of all sizes across India.</p></div>
+          </details>
+          <details class="faq-item">
+            <summary class="faq-question"><span>How quickly can I start accepting payments?</span><svg class="faq-chevron" viewBox="0 0 24 24" width="20" height="20"><path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></summary>
+            <div class="faq-answer"><p>Most businesses can go live within hours. Our KYC process is entirely digital — just provide your PAN, GSTIN, and bank account details. Once verified, start accepting payments via UPI, cards, net banking, wallets, and more immediately.</p></div>
+          </details>
+          <details class="faq-item">
+            <summary class="faq-question"><span>Is Akoin Fintech RBI-compliant and secure?</span><svg class="faq-chevron" viewBox="0 0 24 24" width="20" height="20"><path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></summary>
+            <div class="faq-answer"><p>We are fully compliant with RBI guidelines, PCI-DSS Level 1 certified, and follow SOC 2 Type II practices. All data is encrypted with 256-bit AES encryption both in transit and at rest with regular third-party audits.</p></div>
+          </details>
+          <details class="faq-item">
+            <summary class="faq-question"><span>What payment modes do you support?</span><svg class="faq-chevron" viewBox="0 0 24 24" width="20" height="20"><path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></summary>
+            <div class="faq-answer"><p>We support 100+ payment modes including all UPI apps, Visa/Mastercard/RuPay debit &amp; credit cards, net banking from 50+ banks, mobile wallets, Buy Now Pay Later, EMI, and international cards. We also support UPI AutoPay for recurring payments.</p></div>
+          </details>
+          <details class="faq-item">
+            <summary class="faq-question"><span>What are your settlement timelines?</span><svg class="faq-chevron" viewBox="0 0 24 24" width="20" height="20"><path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></summary>
+            <div class="faq-answer"><p>Standard: T+2. Growth plan: T+1. Enterprise: instant T+0 settlements — funds within minutes. No manual intervention required.</p></div>
+          </details>
+          <details class="faq-item">
+            <summary class="faq-question"><span>Do you provide developer documentation and SDKs?</span><svg class="faq-chevron" viewBox="0 0 24 24" width="20" height="20"><path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></summary>
+            <div class="faq-answer"><p>Yes! REST API documentation, SDKs in Node.js, Python, Java, PHP, and Go, Postman collections, sandbox environments, webhook support with signature verification. Average integration time: under 1 hour.</p></div>
+          </details>
+          <details class="faq-item">
+            <summary class="faq-question"><span>Can I use Akoin for international payments?</span><svg class="faq-chevron" viewBox="0 0 24 24" width="20" height="20"><path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></summary>
+            <div class="faq-answer"><p>Yes. Our Enterprise plan supports payments from 100+ countries with multi-currency processing, dynamic currency conversion, and INR settlements. Ideal for exporters, SaaS companies, and global freelancers.</p></div>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA BANNER -->
+    <section class="cta-banner">
+      <div class="container cta-content reveal">
+        <h2>Ready to Transform Your Business Payments?</h2>
+        <p>Join 500+ businesses already growing with Akoin Fintech. Start accepting payments in minutes — no setup fees, no long-term contracts.</p>
+        <div class="cta-btns">
+          <a href="#contact" class="btn btn-cta-primary btn-ripple">Start Free Trial</a>
+          <a href="#contact" class="btn btn-cta-outline btn-ripple">Talk to Sales</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section class="section" id="contact">
+      <div class="container">
+        <div class="section-header reveal">
+          <span class="section-tag">Let's Talk</span>
+          <h2>Get in Touch</h2>
+          <p class="section-desc">Have a project in mind? Drop us a message and we'll get back within 24 hours.</p>
+        </div>
+        <div class="contact-grid">
+          <div class="contact-info reveal">
+            <div class="contact-info-card glass-card">
+              <div class="ci-icon"><svg viewBox="0 0 24 24" width="22" height="22"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="10" r="3" fill="none" stroke="currentColor" stroke-width="2"/></svg></div>
+              <div><strong>Office Address</strong><p>Gurgaon (Gurugram), Haryana, India 122001</p></div>
+            </div>
+            <div class="contact-info-card glass-card">
+              <div class="ci-icon"><svg viewBox="0 0 24 24" width="22" height="22"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" fill="none" stroke="currentColor" stroke-width="2"/><polyline points="22,6 12,13 2,6" fill="none" stroke="currentColor" stroke-width="2"/></svg></div>
+              <div><strong>Email Us</strong><p>hello@akoinfintech.com</p></div>
+            </div>
+            <div class="contact-info-card glass-card">
+              <div class="ci-icon"><svg viewBox="0 0 24 24" width="22" height="22"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z" fill="none" stroke="currentColor" stroke-width="2"/></svg></div>
+              <div><strong>Call Us</strong><p>+91-124-XXX-XXXX</p></div>
+            </div>
+            <div class="contact-info-card glass-card">
+              <div class="ci-icon"><svg viewBox="0 0 24 24" width="22" height="22"><circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-width="2"/><polyline points="12 6 12 12 16 14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></div>
+              <div><strong>Business Hours</strong><p>Mon - Sat: 9:00 AM - 7:00 PM IST</p></div>
+            </div>
+          </div>
+          <form class="contact-form reveal reveal-right" id="contact-form" novalidate>
+            <div class="form-row">
+              <div class="form-group"><label for="c-name">Full Name</label><input type="text" id="c-name" name="name" required autocomplete="name" placeholder="Priya Sharma" /></div>
+              <div class="form-group"><label for="c-email">Email</label><input type="email" id="c-email" name="email" required autocomplete="email" placeholder="priya@company.com" /></div>
+            </div>
+            <div class="form-row">
+              <div class="form-group"><label for="c-phone">Phone (optional)</label><input type="tel" id="c-phone" name="phone" autocomplete="tel" placeholder="+91 98765 43210" /></div>
+              <div class="form-group"><label for="c-company">Company (optional)</label><input type="text" id="c-company" name="company" autocomplete="organization" placeholder="Your Company Ltd." /></div>
+            </div>
+            <div class="form-group">
+              <label for="c-subject">Subject</label>
+              <select id="c-subject" name="subject">
+                <option value="">Choose a topic...</option>
+                <option value="payments">Payment Gateway Integration</option>
+                <option value="lending">Lending Platform</option>
+                <option value="banking">Business Banking</option>
+                <option value="enterprise">Enterprise Solutions</option>
+                <option value="partnership">Partnership Inquiry</option>
+                <option value="other">Other</option>
+              </select>
+            </div>
+            <div class="form-group"><label for="c-msg">Message</label><textarea id="c-msg" name="message" rows="5" placeholder="Tell us about your project and requirements..."></textarea></div>
+            <button type="submit" class="btn btn-primary btn-submit btn-ripple">
+              <span>Send Message</span>
+              <svg class="btn-arrow" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </button>
+            <p class="form-feedback" id="form-feedback" aria-live="polite"></p>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <!-- NEWSLETTER -->
+    <section class="newsletter-strip">
+      <div class="container newsletter-content reveal">
+        <div class="newsletter-text"><h3>Stay Updated</h3><p>Get the latest fintech insights, product updates, and industry news delivered to your inbox.</p></div>
+        <form class="newsletter-form" id="newsletter-form">
+          <label for="nl-email" class="sr-only">Email address</label>
+          <input type="email" id="nl-email" placeholder="Enter your email" required autocomplete="email" />
+          <button type="submit" class="btn btn-primary btn-ripple">Subscribe</button>
+        </form>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ========== FOOTER ========== -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-top">
+        <div class="footer-brand-col">
+          <div class="footer-brand">
+            <svg viewBox="0 0 56 48" width="28" height="24" aria-hidden="true">
+              <defs><linearGradient id="ft-g" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="var(--accent-alt)"/><stop offset="100%" stop-color="var(--accent)"/></linearGradient></defs>
+              <path d="M28 5 L9 44" stroke="url(#ft-g)" stroke-width="4.5" stroke-linecap="round" fill="none"/>
+              <path d="M28 5 L47 44" stroke="url(#ft-g)" stroke-width="4.5" stroke-linecap="round" fill="none"/>
+              <path d="M15 30 Q21.5 25 28 30 Q34.5 35 41 30" stroke="url(#ft-g)" stroke-width="2.8" stroke-linecap="round" fill="none"/>
+              <circle cx="15" cy="30" r="2.5" fill="var(--accent)"/>
+              <circle cx="41" cy="30" r="2.5" fill="var(--accent-alt)"/>
+              <circle cx="28" cy="5" r="3" fill="var(--accent-alt)" opacity="0.8"/>
+            </svg>
+            <span>Akoin Fintech Pvt. Ltd.</span>
+          </div>
+          <p class="footer-tagline">Building the financial infrastructure that powers India's digital economy.</p>
+          <div class="footer-social">
+            <a href="#" aria-label="LinkedIn"><svg viewBox="0 0 24 24" width="20" height="20"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" fill="none" stroke="currentColor" stroke-width="2"/><rect x="2" y="9" width="4" height="12" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="4" cy="4" r="2" fill="none" stroke="currentColor" stroke-width="2"/></svg></a>
+            <a href="#" aria-label="Twitter"><svg viewBox="0 0 24 24" width="20" height="20"><path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z" fill="none" stroke="currentColor" stroke-width="2"/></svg></a>
+            <a href="#" aria-label="GitHub"><svg viewBox="0 0 24 24" width="20" height="20"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22" fill="none" stroke="currentColor" stroke-width="2"/></svg></a>
+            <a href="#" aria-label="Instagram"><svg viewBox="0 0 24 24" width="20" height="20"><rect x="2" y="2" width="20" height="20" rx="5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="5" fill="none" stroke="currentColor" stroke-width="2"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></a>
+          </div>
+        </div>
+        <div class="footer-links-col"><h4>Products</h4><a href="#products">Payment Gateway</a><a href="#products">Payment Links</a><a href="#products">Subscriptions</a><a href="#products">Bulk Payouts</a><a href="#products">Business Banking</a></div>
+        <div class="footer-links-col"><h4>Company</h4><a href="#about">About Us</a><a href="#industries">Industries</a><a href="#pricing">Pricing</a><a href="#testimonials">Testimonials</a><a href="#contact">Contact</a></div>
+        <div class="footer-links-col"><h4>Resources</h4><a href="#developers">API Documentation</a><a href="#faq">FAQs</a><a href="#">Blog</a><a href="#">Status Page</a><a href="#">Support Center</a></div>
+        <div class="footer-links-col"><h4>Legal</h4><a href="#">Privacy Policy</a><a href="#">Terms of Service</a><a href="#">Refund Policy</a><a href="#">Cookie Policy</a></div>
+      </div>
+      <div class="footer-bottom">
+        <p class="footer-copy">&copy; 2026 Akoin Fintech Private Limited. All rights reserved. CIN: U74999HR2023PTC114563</p>
+        <div class="footer-badges">
+          <span class="footer-badge">PCI DSS</span>
+          <span class="footer-badge">SSL Secured</span>
+          <span class="footer-badge">ISO 27001</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- BACK TO TOP -->
+  <button class="back-to-top" id="back-to-top" aria-label="Back to top" title="Back to top">
+    <svg viewBox="0 0 24 24" width="22" height="22"><path d="M18 15l-6-6-6 6" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  </button>
+
+  <!-- CHATBOT -->
+  <div class="chatbot" id="chatbot" aria-label="Chat assistant">
+    <button class="chat-toggle" id="chat-toggle" aria-label="Open chat" aria-expanded="false">
+      <svg class="chat-icon-open" viewBox="0 0 24 24" width="26" height="26" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <svg class="chat-icon-close" viewBox="0 0 24 24" width="26" height="26" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><line x1="6" y1="6" x2="18" y2="18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+    </button>
+    <div class="chat-window" id="chat-window" role="log" aria-live="polite">
+      <div class="chat-header"><div class="chat-status"><span class="status-dot"></span> Akoin Assistant</div></div>
+      <div class="chat-messages" id="chat-messages"></div>
+      <div class="chat-quick-replies" id="chat-quick-replies">
+        <button class="quick-reply" data-msg="What products do you offer?">Products</button>
+        <button class="quick-reply" data-msg="What is the pricing?">Pricing</button>
+        <button class="quick-reply" data-msg="How do I integrate the API?">API</button>
+        <button class="quick-reply" data-msg="How can I contact you?">Contact</button>
+      </div>
+      <form class="chat-input-area" id="chat-form">
+        <label for="chat-input" class="sr-only">Type a message</label>
+        <input type="text" id="chat-input" placeholder="Ask us anything..." autocomplete="off" />
+        <button type="submit" aria-label="Send message"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4z" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+      </form>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 420 100" width="420" height="100">
+  <defs>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;600&amp;display=swap');
+    </style>
+  </defs>
+
+  <!-- Isometric cube icon -->
+  <g transform="translate(5,0)">
+    <!-- Top face — vibrant orange -->
+    <polygon points="45,10 80,30 45,50 10,30" fill="#E8651A"/>
+    <!-- Left face — near black -->
+    <polygon points="10,30 45,50 45,82 10,62" fill="#1A1A1A"/>
+    <!-- Right face — dark charcoal -->
+    <polygon points="80,30 45,50 45,82 80,62" fill="#2D2D2D"/>
+    <!-- Grid lines on top face -->
+    <line x1="27.5" y1="20" x2="62.5" y2="40" stroke="#D45B15" stroke-width="0.6" opacity="0.4"/>
+    <line x1="45" y1="30" x2="10" y2="40" stroke="#D45B15" stroke-width="0.6" opacity="0.35"/>
+    <line x1="45" y1="30" x2="80" y2="40" stroke="#D45B15" stroke-width="0.6" opacity="0.35"/>
+    <line x1="45" y1="50" x2="45" y2="82" stroke="#3D3D3D" stroke-width="0.5" opacity="0.5"/>
+  </g>
+
+  <!-- Text: IDR -->
+  <text x="100" y="55" font-family="Inter, Helvetica, Arial, sans-serif" font-weight="600" font-size="38" fill="#1A1A1A" letter-spacing="3">IDR</text>
+
+  <!-- Subtext: Institute of Digital Risk -->
+  <text x="100" y="76" font-family="Inter, Helvetica, Arial, sans-serif" font-weight="300" font-size="13" fill="#555555" letter-spacing="1.5">INSTITUTE OF DIGITAL RISK</text>
+</svg>

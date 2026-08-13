@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 56 48" width="56" height="48">
+  <!-- Akoin Fintech — "The Flow A" Logo
+       Two converging paths form an A (growth/ambition).
+       The crossbar is a flowing wave (money/data in motion).
+       Nodes at each end = sender & receiver.
+       Apex spark = innovation / moment of transaction.
+  -->
+  <defs>
+    <linearGradient id="akg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFD54F"/>
+      <stop offset="50%" stop-color="#F0A500"/>
+      <stop offset="100%" stop-color="#D4890A"/>
+    </linearGradient>
+    <linearGradient id="akg2" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#D4890A"/>
+      <stop offset="50%" stop-color="#FFD54F"/>
+      <stop offset="100%" stop-color="#F0A500"/>
+    </linearGradient>
+    <filter id="spark-glow">
+      <feGaussianBlur stdDeviation="1.5" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+  <!-- Left leg -->
+  <path d="M28 5 L9 44" stroke="url(#akg)" stroke-width="4.5" stroke-linecap="round" fill="none"/>
+  <!-- Right leg -->
+  <path d="M28 5 L47 44" stroke="url(#akg)" stroke-width="4.5" stroke-linecap="round" fill="none"/>
+  <!-- Wave crossbar (money flow) -->
+  <path d="M15 30 Q21.5 25 28 30 Q34.5 35 41 30" stroke="url(#akg2)" stroke-width="2.8" stroke-linecap="round" fill="none"/>
+  <!-- Sender node -->
+  <circle cx="15" cy="30" r="3" fill="#F0A500"/>
+  <!-- Receiver node -->
+  <circle cx="41" cy="30" r="3" fill="#FFD54F"/>
+  <!-- Apex spark -->
+  <circle cx="28" cy="5" r="3.5" fill="#FFE082" filter="url(#spark-glow)" opacity="0.85"/>
+  <circle cx="28" cy="5" r="1.8" fill="#FFF"/>
+</svg>
