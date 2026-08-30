@@ -1,0 +1,249 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ==========================================================================
+   AKOIN FINTECH — DESIGN TOKENS & SYSTEM PROPERTIES
+   ========================================================================== */
+:root {
+  /* Colors - Light Theme */
+  --bg-primary: #FFFFFF;
+  --bg-secondary: #F8FAFC;
+  --bg-tertiary: #F1F5F9;
+  --bg-card: #FFFFFF;
+  --bg-card-hover: #F8FAFC;
+  --border-subtle: #E2E8F0;
+  --border-strong: #CBD5E1;
+
+  --text-primary: #0F172A;
+  --text-secondary: #475569;
+  --text-muted: #64748B;
+  --text-inverse: #FFFFFF;
+
+  --brand-primary: #F0A500;
+  --brand-primary-hover: #D4890A;
+  --brand-secondary: #0A192F;
+  --brand-accent: #3B82F6;
+  --brand-accent-glow: rgba(240, 165, 0, 0.25);
+
+  --status-success: #10B981;
+  --status-warning: #F59E0B;
+  --status-error: #EF4444;
+  --status-info: #06B6D4;
+
+  /* Elevation & Shadows */
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.08), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.05);
+  --shadow-glow: 0 0 20px var(--brand-accent-glow);
+
+  /* Radius */
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 16px;
+  --radius-full: 9999px;
+
+  /* Typography Scale */
+  --font-sans: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-display: 'Space Grotesk', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+
+  /* Motion Defaults */
+  --ease-spring: cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  --ease-smooth: cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-fast: 150ms var(--ease-smooth);
+  --transition-normal: 250ms var(--ease-smooth);
+}
+
+/* ==========================================================================
+   DARK THEME TOKENS
+   ========================================================================== */
+[data-theme="dark"],
+.dark {
+  --bg-primary: #0A0E17;
+  --bg-secondary: #111827;
+  --bg-tertiary: #1F2937;
+  --bg-card: #111827;
+  --bg-card-hover: #1E293B;
+  --border-subtle: #1E293B;
+  --border-strong: #334155;
+
+  --text-primary: #F8FAFC;
+  --text-secondary: #94A3B8;
+  --text-muted: #64748B;
+  --text-inverse: #0F172A;
+
+  --brand-primary: #FFB703;
+  --brand-primary-hover: #F0A500;
+  --brand-secondary: #0F172A;
+  --brand-accent: #60A5FA;
+  --brand-accent-glow: rgba(255, 183, 3, 0.25);
+
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.4);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.5);
+}
+
+/* ==========================================================================
+   VIEWPORT, SAFE-AREA, & CRITICAL RESETS
+   ========================================================================== */
+html {
+  box-sizing: border-box;
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+  text-rendering: optimizeLegibility;
+  font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+}
+
+*, *::before, *::after {
+  box-sizing: inherit;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: var(--font-sans);
+  line-height: 1.5;
+  min-height: 100vh;
+  min-height: 100dvh;
+  overflow-x: hidden;
+  padding-top: env(safe-area-inset-top);
+  padding-bottom: env(safe-area-inset-bottom);
+  padding-left: env(safe-area-inset-left);
+  padding-right: env(safe-area-inset-right);
+  transition: background-color var(--transition-normal), color var(--transition-normal);
+}
+
+/* iOS Auto-Zoom Annihilator (16px minimum on all form controls) */
+input,
+select,
+textarea,
+button {
+  font-size: 16px !important;
+  font-family: inherit;
+}
+
+@media (min-width: 768px) {
+  input,
+  select,
+  textarea,
+  button {
+    font-size: 0.9375rem !important; /* 15px/16px on desktop */
+  }
+}
+
+/* 44px Minimum Touch Target Size (WCAG 2.5.8 & Apple HIG) */
+button,
+a,
+input[type="button"],
+input[type="submit"],
+input[type="checkbox"],
+input[type="radio"],
+.touch-target {
+  min-height: 44px;
+  min-width: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Focus-Visible A11y Standard */
+:focus-visible {
+  outline: 2px solid var(--brand-primary);
+  outline-offset: 2px;
+  border-radius: var(--radius-sm);
+}
+
+:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* Break long words to prevent horizontal scrolling */
+p, span, h1, h2, h3, h4, h5, h6, a {
+  overflow-wrap: break-word;
+  word-break: break-word;
+}
+
+/* ==========================================================================
+   MAX-WIDTH & RESPONSIVE LAYOUT ENGINE
+   ========================================================================== */
+.container-custom {
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1.25rem;
+  padding-right: 1.25rem;
+  max-width: 100%;
+}
+
+@media (min-width: 640px) {
+  .container-custom { padding-left: 2rem; padding-right: 2rem; max-width: 640px; }
+}
+@media (min-width: 768px) {
+  .container-custom { max-width: 768px; }
+}
+@media (min-width: 1024px) {
+  .container-custom { max-width: 1024px; padding-left: 2.5rem; padding-right: 2.5rem; }
+}
+@media (min-width: 1280px) {
+  .container-custom { max-width: 1280px; }
+}
+@media (min-width: 1536px) {
+  .container-custom { max-width: 1440px; }
+}
+@media (min-width: 2560px) {
+  .container-custom { max-width: 1800px; }
+}
+
+/* Grid Density Strategy across all breakpoints */
+.responsive-card-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.25rem;
+}
+
+@media (min-width: 640px) {
+  .responsive-card-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .responsive-card-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.75rem;
+  }
+}
+
+@media (min-width: 1440px) {
+  .responsive-card-grid {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2rem;
+  }
+}
+
+@media (min-width: 2160px) {
+  .responsive-card-grid {
+    grid-template-columns: repeat(5, 1fr);
+    gap: 2.25rem;
+  }
+}
+
+/* Hover vs Touch Separation */
+@media (hover: hover) and (pointer: fine) {
+  .interactive-card {
+    transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+  }
+  .interactive-card:hover {
+    transform: translateY(-4px) scale(1.01);
+    box-shadow: var(--shadow-lg), var(--shadow-glow);
+  }
+}
+
+@media (hover: none) or (pointer: coarse) {
+  .interactive-card:active {
+    transform: scale(0.98);
+  }
+}

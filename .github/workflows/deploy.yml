@@ -1,0 +1,126 @@
+name: Enterprise Production CI/CD Pipeline
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  NODE_VERSION: '20.x'
+  NEXT_PUBLIC_APP_ENV: ${{ github.ref == 'refs/heads/main' && 'production' || 'staging' }}
+  NEXT_PUBLIC_API_URL: ${{ secrets.NEXT_PUBLIC_API_URL }}
+
+jobs:
+  # ==========================================================
+  # STAGE 1: Code Quality, Linting & Strict Typecheck
+  # ==========================================================
+  code-quality:
+    name: Lint & Type Validation
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Source Code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js ${{ env.NODE_VERSION }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: Install Dependencies (Frozen Lockfile)
+        run: npm ci
+
+      - name: Validate Environment Schema
+        run: |
+          if [ -z "$NEXT_PUBLIC_API_URL" ]; then
+            echo "❌ Fatal: NEXT_PUBLIC_API_URL is undefined."
+            exit 1
+          fi
+
+      - name: Execute ESLint
+        run: npm run lint
+
+      - name: Strict TypeScript Compilation Check
+        run: npx tsc --noEmit
+
+      - name: Run Unit & Integration Tests
+        run: npm run test:ci --if-present
+
+  # ==========================================================
+  # STAGE 2: Security & Vulnerability Scan
+  # ==========================================================
+  security-audit:
+    name: Security & SAST Scanning
+    runs-on: ubuntu-latest
+    needs: [code-quality]
+    steps:
+      - uses: actions/checkout@v4
+      - name: NPM Security Audit
+        run: npm audit --audit-level=high
+
+  # ==========================================================
+  # STAGE 3: Build & E2E Testing on Staging
+  # ==========================================================
+  e2e-staging:
+    name: Playwright Cross-Device E2E
+    runs-on: ubuntu-latest
+    needs: [code-quality, security-audit]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: Install Dependencies
+        run: npm ci
+
+      - name: Install Playwright Browsers
+        run: npx playwright install --with-deps
+
+      - name: Build Application
+        run: npm run build
+        env:
+          DATABASE_URL: ${{ secrets.STAGING_DATABASE_URL }}
+          NEXT_PUBLIC_API_URL: ${{ secrets.STAGING_API_URL }}
+
+      - name: Execute Cross-Device Playwright Tests
+        run: npx playwright test
+        env:
+          CI: true
+
+      - name: Upload Playwright Test Artifacts
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report
+          path: playwright-report/
+          retention-days: 7
+
+  # ==========================================================
+  # STAGE 4: Zero-Downtime Production Promotion
+  # ==========================================================
+  deploy-production:
+    name: Zero-Downtime Production Promotion
+    runs-on: ubuntu-latest
+    needs: [e2e-staging]
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    environment:
+      name: production
+      url: https://akoin.in
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Deploy to Vercel/Production Edge
+        uses: amondnet/vercel-action@v25
+        with:
+          vercel-token: ${{ secrets.VERCEL_TOKEN }}
+          vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
+          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
+          vercel-args: '--prod'
+          scope: ${{ secrets.VERCEL_ORG_ID }}

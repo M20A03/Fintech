@@ -1,6 +1,7 @@
 /* ============================================================
-   AKOIN FINTECH — SCRIPT
-   Premium interactions & animations
+   AKOIN FINTECH — SCRIPT (Enterprise Overhaul)
+   Phases 0–6: Idempotency, Command Palette, Toast System,
+   Keyboard Shortcuts, Focus Trapping, Memory-Safe Cleanup
    ============================================================ */
 ;(function () {
   'use strict';
@@ -25,11 +26,67 @@
   const contactForm = $('#contact-form');
   const newsletterForm = $('#newsletter-form');
 
+  /* Command Palette refs */
+  const cmdModal = $('#cmd-palette-modal');
+  const cmdInput = $('#cmd-palette-input');
+  const cmdCloseBtn = $('#cmd-close-btn');
+  const cmdPaletteBtn = $('#cmd-palette-btn');
+  const cmdResults = $('#cmd-palette-results');
+  const cmdToggleTheme = $('#cmd-toggle-theme');
+  const cmdOpenChat = $('#cmd-open-chat');
+  const cmdCopyLink = $('#cmd-copy-link');
+
+  /* Toast container */
+  const toastContainer = $('#toast-container');
+
+  /* ==========================================================
+     PHASE 0: TOAST NOTIFICATION ENGINE
+     Global accessible toast alerts (role="alert", aria-live)
+     ========================================================== */
+  const TOAST_ICONS = {
+    success: '✅',
+    error: '❌',
+    warning: '⚠️',
+    info: 'ℹ️'
+  };
+
+  function showToast(type, message, durationMs) {
+    if (!toastContainer) return;
+    durationMs = durationMs || 4500;
+    const toast = document.createElement('div');
+    toast.className = 'toast toast-' + type;
+    toast.setAttribute('role', 'alert');
+    toast.innerHTML =
+      '<span class="toast-icon">' + (TOAST_ICONS[type] || '') + '</span>' +
+      '<span class="toast-msg">' + message + '</span>' +
+      '<button class="toast-close" aria-label="Dismiss">&times;</button>';
+    toastContainer.appendChild(toast);
+
+    const closeBtn = toast.querySelector('.toast-close');
+    let dismissTimer = setTimeout(function() { removeToast(toast); }, durationMs);
+
+    closeBtn.addEventListener('click', function() {
+      clearTimeout(dismissTimer);
+      removeToast(toast);
+    });
+  }
+
+  function removeToast(toast) {
+    toast.classList.add('removing');
+    setTimeout(function() { if (toast.parentNode) toast.parentNode.removeChild(toast); }, 350);
+  }
+
+  /* Listen for custom global toast events (from fetcher.ts or any module) */
+  window.addEventListener('akoin_toast', function(e) {
+    var d = e.detail;
+    if (d && d.type && d.message) showToast(d.type, d.message);
+  });
+
   /* ==========================================================
      PRELOADER
      ========================================================== */
-  window.addEventListener('load', () => {
-    setTimeout(() => {
+  window.addEventListener('load', function() {
+    setTimeout(function() {
       preloader.classList.add('hidden');
       body.style.overflow = '';
     }, 2000);
@@ -37,50 +94,90 @@
   body.style.overflow = 'hidden';
 
   /* ==========================================================
-     THEME TOGGLE
+     THEME TOGGLE (Zero FOUC — init done in <head> script)
      ========================================================== */
-  const savedTheme = localStorage.getItem('akoin-theme');
-  if (savedTheme) {
-    document.documentElement.setAttribute('data-theme', savedTheme);
-  } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-    document.documentElement.setAttribute('data-theme', 'dark');
+  const THEME_KEY = 'akoin_theme_preference';
+  /* The <head> inline script already applied data-theme.
+     We sync our JS state from the DOM. */
+  function getCurrentTheme() {
+    return document.documentElement.getAttribute('data-theme') || 'light';
   }
 
-  themeToggle.addEventListener('click', () => {
-    const next = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+  themeToggle.addEventListener('click', function() {
+    var next = getCurrentTheme() === 'dark' ? 'light' : 'dark';
     document.documentElement.setAttribute('data-theme', next);
+    localStorage.setItem(THEME_KEY, next);
+    /* Also write to legacy key for backwards compat */
     localStorage.setItem('akoin-theme', next);
   });
 
   /* ==========================================================
-     MOBILE NAV
+     MOBILE NAV (Phase 3.5 — Focus Trap + Overlay Backdrop)
      ========================================================== */
-  hamburger.addEventListener('click', () => {
-    const open = navLinks.classList.toggle('open');
-    hamburger.classList.toggle('active');
-    hamburger.setAttribute('aria-expanded', String(open));
-    body.style.overflow = open ? 'hidden' : '';
+  /* Create overlay backdrop element dynamically */
+  const navOverlay = document.createElement('div');
+  navOverlay.className = 'nav-overlay';
+  navOverlay.id = 'nav-overlay';
+  body.appendChild(navOverlay);
+
+  function openMobileNav() {
+    navLinks.classList.add('open');
+    hamburger.classList.add('active');
+    hamburger.setAttribute('aria-expanded', 'true');
+    body.style.overflow = 'hidden';
+    navOverlay.classList.add('active');
+    /* Focus trap: move focus to first nav link */
+    var firstLink = navLinks.querySelector('.nav-link');
+    if (firstLink) firstLink.focus();
+  }
+
+  function closeMobileNav() {
+    navLinks.classList.remove('open');
+    hamburger.classList.remove('active');
+    hamburger.setAttribute('aria-expanded', 'false');
+    body.style.overflow = '';
+    navOverlay.classList.remove('active');
+    hamburger.focus();
+  }
+
+  hamburger.addEventListener('click', function() {
+    var isOpen = navLinks.classList.contains('open');
+    if (isOpen) closeMobileNav();
+    else openMobileNav();
   });
 
-  $$('.nav-link').forEach(link => {
-    link.addEventListener('click', () => {
-      navLinks.classList.remove('open');
-      hamburger.classList.remove('active');
-      hamburger.setAttribute('aria-expanded', 'false');
-      body.style.overflow = '';
-    });
+  /* Close on overlay click */
+  navOverlay.addEventListener('click', closeMobileNav);
+
+  /* Close on nav link click */
+  $$('.nav-link').forEach(function(link) {
+    link.addEventListener('click', closeMobileNav);
+  });
+
+  /* Focus trap inside mobile nav */
+  navLinks.addEventListener('keydown', function(e) {
+    if (e.key !== 'Tab' || !navLinks.classList.contains('open')) return;
+    var focusable = navLinks.querySelectorAll('a, button');
+    if (focusable.length === 0) return;
+    var first = focusable[0];
+    var last = focusable[focusable.length - 1];
+    if (e.shiftKey) {
+      if (document.activeElement === first) { e.preventDefault(); last.focus(); }
+    } else {
+      if (document.activeElement === last) { e.preventDefault(); first.focus(); }
+    }
   });
 
   /* ==========================================================
      NAVBAR SCROLL
      ========================================================== */
-  let lastScroll = 0;
+  var lastScroll = 0;
   function onScroll() {
-    const y = window.scrollY;
+    var y = window.scrollY;
     navbar.classList.toggle('scrolled', y > 60);
 
     /* Scroll progress */
-    const docH = document.documentElement.scrollHeight - window.innerHeight;
+    var docH = document.documentElement.scrollHeight - window.innerHeight;
     if (docH > 0) {
       scrollProgress.style.width = (y / docH * 100) + '%';
     }
@@ -96,29 +193,29 @@
   /* ==========================================================
      SCROLL SPY
      ========================================================== */
-  const spySections = $$('#hero,#about,#products,#services,#industries,#pricing,#contact');
-  const navLinkEls = $$('.nav-link');
+  var spySections = $$('#hero,#about,#products,#services,#industries,#pricing,#contact');
+  var navLinkEls = $$('.nav-link');
 
-  const spyObs = new IntersectionObserver(entries => {
-    entries.forEach(e => {
+  var spyObs = new IntersectionObserver(function(entries) {
+    entries.forEach(function(e) {
       if (e.isIntersecting) {
-        const id = e.target.id;
-        navLinkEls.forEach(l => {
+        var id = e.target.id;
+        navLinkEls.forEach(function(l) {
           l.classList.toggle('active', l.getAttribute('href') === '#' + id);
         });
       }
     });
   }, { rootMargin: '-40% 0px -55% 0px' });
 
-  spySections.forEach(s => spyObs.observe(s));
+  spySections.forEach(function(s) { spyObs.observe(s); });
 
   /* ==========================================================
      SCROLL REVEAL
      ========================================================== */
-  const revealObs = new IntersectionObserver(entries => {
-    entries.forEach(e => {
+  var revealObs = new IntersectionObserver(function(entries) {
+    entries.forEach(function(e) {
       if (e.isIntersecting) {
-        const delay = e.target.style.getPropertyValue('--delay') || '0s';
+        var delay = e.target.style.getPropertyValue('--delay') || '0s';
         e.target.style.transitionDelay = delay;
         e.target.classList.add('visible');
         revealObs.unobserve(e.target);
@@ -126,20 +223,20 @@
     });
   }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
 
-  $$('.reveal').forEach(el => revealObs.observe(el));
+  $$('.reveal').forEach(function(el) { revealObs.observe(el); });
 
   /* ==========================================================
      ANIMATED COUNTERS
      ========================================================== */
-  const counterObs = new IntersectionObserver(entries => {
-    entries.forEach(e => {
+  var counterObs = new IntersectionObserver(function(entries) {
+    entries.forEach(function(e) {
       if (!e.isIntersecting) return;
-      const el = e.target;
-      const target = +el.dataset.target;
-      const suffix = el.dataset.suffix || '';
-      let current = 0;
-      const step = Math.max(1, Math.ceil(target / 50));
-      const interval = setInterval(() => {
+      var el = e.target;
+      var target = +el.dataset.target;
+      var suffix = el.dataset.suffix || '';
+      var current = 0;
+      var step = Math.max(1, Math.ceil(target / 50));
+      var interval = setInterval(function() {
         current += step;
         if (current >= target) { current = target; clearInterval(interval); }
         el.textContent = current + suffix;
@@ -148,22 +245,22 @@
     });
   }, { threshold: 0.5 });
 
-  $$('.stat-num').forEach(el => counterObs.observe(el));
+  $$('.stat-num').forEach(function(el) { counterObs.observe(el); });
 
   /* ==========================================================
      HERO TYPING ANIMATION
      ========================================================== */
-  const typedEl = $('#typed-text');
-  const words = ['Digital Payments', 'Smart Banking', 'Instant Lending', 'Risk Analytics', 'Business Growth'];
-  let wordIdx = 0, charIdx = 0, deleting = false;
+  var typedEl = $('#typed-text');
+  var words = ['Digital Payments', 'Smart Banking', 'Instant Lending', 'Risk Analytics', 'Business Growth'];
+  var wordIdx = 0, charIdx = 0, deleting = false;
 
   function typeLoop() {
-    const word = words[wordIdx];
+    var word = words[wordIdx];
     if (!deleting) {
       charIdx++;
       typedEl.textContent = word.slice(0, charIdx);
       if (charIdx === word.length) {
-        setTimeout(() => { deleting = true; typeLoop(); }, 2000);
+        setTimeout(function() { deleting = true; typeLoop(); }, 2000);
         return;
       }
       setTimeout(typeLoop, 80);
@@ -184,15 +281,15 @@
   /* ==========================================================
      PRODUCT TABS
      ========================================================== */
-  $$('.tab-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-      $$('.tab-btn').forEach(b => { b.classList.remove('active'); b.setAttribute('aria-selected', 'false'); });
+  $$('.tab-btn').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      $$('.tab-btn').forEach(function(b) { b.classList.remove('active'); b.setAttribute('aria-selected', 'false'); });
       btn.classList.add('active');
       btn.setAttribute('aria-selected', 'true');
 
-      const tabId = btn.dataset.tab;
-      $$('.tab-panel').forEach(p => p.classList.remove('active'));
-      const target = $('#tab-' + tabId);
+      var tabId = btn.dataset.tab;
+      $$('.tab-panel').forEach(function(p) { p.classList.remove('active'); });
+      var target = $('#tab-' + tabId);
       if (target) target.classList.add('active');
     });
   });
@@ -200,138 +297,205 @@
   /* ==========================================================
      TESTIMONIAL CAROUSEL
      ========================================================== */
-  const tTrack = $('#testimonial-track');
-  const tDotsWrap = $('#tc-dots');
-  const tCards = $$('.testimonial-card');
-  let tIdx = 0, tAuto;
+  var tTrack = $('#testimonial-track');
+  var tDotsWrap = $('#tc-dots');
+  var tCards = $$('.testimonial-card');
+  var tIdx = 0, tAuto;
 
   function buildDots() {
+    if (!tDotsWrap) return;
     tDotsWrap.innerHTML = '';
-    tCards.forEach((_, i) => {
-      const dot = document.createElement('button');
+    tCards.forEach(function(_, i) {
+      var dot = document.createElement('button');
       dot.className = 'tc-dot' + (i === 0 ? ' active' : '');
       dot.setAttribute('aria-label', 'Go to testimonial ' + (i + 1));
-      dot.addEventListener('click', () => goToSlide(i));
+      dot.addEventListener('click', function() { goToSlide(i); });
       tDotsWrap.appendChild(dot);
     });
   }
   buildDots();
 
   function goToSlide(i) {
+    if (!tTrack) return;
     tIdx = ((i % tCards.length) + tCards.length) % tCards.length;
     tTrack.style.transform = 'translateX(-' + (tIdx * 100) + '%)';
-    $$('.tc-dot').forEach((d, j) => d.classList.toggle('active', j === tIdx));
+    $$('.tc-dot').forEach(function(d, j) { d.classList.toggle('active', j === tIdx); });
     resetAuto();
   }
 
   function resetAuto() {
     clearInterval(tAuto);
-    tAuto = setInterval(() => goToSlide(tIdx + 1), 6000);
+    tAuto = setInterval(function() { goToSlide(tIdx + 1); }, 6000);
   }
   resetAuto();
 
-  $('.tc-prev').addEventListener('click', () => goToSlide(tIdx - 1));
-  $('.tc-next').addEventListener('click', () => goToSlide(tIdx + 1));
+  var prevBtn = $('.tc-prev');
+  var nextBtn = $('.tc-next');
+  if (prevBtn) prevBtn.addEventListener('click', function() { goToSlide(tIdx - 1); });
+  if (nextBtn) nextBtn.addEventListener('click', function() { goToSlide(tIdx + 1); });
 
   /* ==========================================================
      BACK TO TOP
      ========================================================== */
-  backToTop.addEventListener('click', () => {
+  backToTop.addEventListener('click', function() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   });
 
   /* ==========================================================
-     3D TILT EFFECT ON CARDS
+     3D TILT EFFECT ON CARDS (Desktop only — pointer: fine)
      ========================================================== */
-  $$('.tilt-card').forEach(card => {
-    card.addEventListener('mousemove', e => {
-      const rect = card.getBoundingClientRect();
-      const x = e.clientX - rect.left;
-      const y = e.clientY - rect.top;
-      const cx = rect.width / 2;
-      const cy = rect.height / 2;
-      const rotateX = ((y - cy) / cy) * -5;
-      const rotateY = ((x - cx) / cx) * 5;
-      card.style.transform = 'perspective(600px) rotateX(' + rotateX + 'deg) rotateY(' + rotateY + 'deg) translateY(-4px)';
+  var hasFinePointer = window.matchMedia('(pointer: fine)').matches;
+  if (hasFinePointer) {
+    $$('.tilt-card').forEach(function(card) {
+      card.addEventListener('mousemove', function(e) {
+        var rect = card.getBoundingClientRect();
+        var x = e.clientX - rect.left;
+        var y = e.clientY - rect.top;
+        var cx = rect.width / 2;
+        var cy = rect.height / 2;
+        var rotateX = ((y - cy) / cy) * -5;
+        var rotateY = ((x - cx) / cx) * 5;
+        card.style.transform = 'perspective(600px) rotateX(' + rotateX + 'deg) rotateY(' + rotateY + 'deg) translateY(-4px)';
+      });
+      card.addEventListener('mouseleave', function() {
+        card.style.transform = '';
+      });
     });
-    card.addEventListener('mouseleave', () => {
-      card.style.transform = '';
-    });
-  });
+  }
 
   /* ==========================================================
      BUTTON RIPPLE EFFECT
      ========================================================== */
-  $$('.btn-ripple').forEach(btn => {
-    btn.addEventListener('click', function (e) {
-      const ripple = document.createElement('span');
+  $$('.btn-ripple').forEach(function(btn) {
+    btn.addEventListener('click', function(e) {
+      var ripple = document.createElement('span');
       ripple.className = 'ripple';
-      const rect = this.getBoundingClientRect();
-      const size = Math.max(rect.width, rect.height);
+      var rect = this.getBoundingClientRect();
+      var size = Math.max(rect.width, rect.height);
       ripple.style.width = ripple.style.height = size + 'px';
       ripple.style.left = (e.clientX - rect.left - size / 2) + 'px';
       ripple.style.top = (e.clientY - rect.top - size / 2) + 'px';
       this.appendChild(ripple);
-      setTimeout(() => ripple.remove(), 600);
+      setTimeout(function() { ripple.remove(); }, 600);
     });
   });
 
   /* ==========================================================
-     CONTACT FORM
+     PHASE 0: CONTACT FORM — IDEMPOTENT SUBMIT (Mutex Lock)
      ========================================================== */
-  contactForm.addEventListener('submit', e => {
-    e.preventDefault();
-    const feedback = $('#form-feedback');
-    const name = $('#c-name').value.trim();
-    const email = $('#c-email').value.trim();
+  var contactSubmitting = false;
 
-    if (!name || !email) {
-      feedback.textContent = 'Please fill in your name and email.';
+  contactForm.addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    /* Prevent double-submit */
+    if (contactSubmitting) return;
+
+    var feedback = $('#form-feedback');
+    var submitBtn = $('#contact-submit-btn');
+    var name = $('#c-name').value.trim();
+    var email = $('#c-email').value.trim();
+
+    /* Clear previous inline errors */
+    $$('#contact-form input, #contact-form textarea, #contact-form select').forEach(function(el) {
+      el.removeAttribute('aria-invalid');
+    });
+
+    if (!name) {
+      feedback.textContent = 'Please enter your full name.';
       feedback.className = 'form-feedback error';
+      $('#c-name').setAttribute('aria-invalid', 'true');
+      $('#c-name').focus();
       return;
     }
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
       feedback.textContent = 'Please enter a valid email address.';
       feedback.className = 'form-feedback error';
+      $('#c-email').setAttribute('aria-invalid', 'true');
+      $('#c-email').focus();
       return;
     }
 
-    feedback.textContent = 'Thank you, ' + name + '! We\'ll be in touch within 24 hours.';
-    feedback.className = 'form-feedback success';
-    contactForm.reset();
+    /* Lock UI */
+    contactSubmitting = true;
+    submitBtn.classList.add('loading');
+    submitBtn.disabled = true;
+    submitBtn.setAttribute('aria-busy', 'true');
+    feedback.textContent = '';
+    feedback.className = 'form-feedback';
+
+    /* Simulate async request (replace with real API call + fetcher.ts) */
+    setTimeout(function() {
+      feedback.textContent = 'Thank you, ' + name + '! We\'ll be in touch within 24 hours.';
+      feedback.className = 'form-feedback success';
+      showToast('success', 'Message sent successfully!');
+      contactForm.reset();
+
+      /* Unlock UI */
+      contactSubmitting = false;
+      submitBtn.classList.remove('loading');
+      submitBtn.disabled = false;
+      submitBtn.setAttribute('aria-busy', 'false');
+    }, 1500);
   });
 
   /* ==========================================================
-     NEWSLETTER FORM
+     NEWSLETTER FORM — IDEMPOTENT SUBMIT
      ========================================================== */
-  newsletterForm.addEventListener('submit', e => {
+  var nlSubmitting = false;
+
+  newsletterForm.addEventListener('submit', function(e) {
     e.preventDefault();
-    const input = $('#nl-email');
-    if (!input.value.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(input.value.trim())) return;
-    const btn = newsletterForm.querySelector('button');
-    const orig = btn.textContent;
+    if (nlSubmitting) return;
+
+    var input = $('#nl-email');
+    if (!input.value.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(input.value.trim())) {
+      showToast('warning', 'Please enter a valid email address.');
+      return;
+    }
+
+    nlSubmitting = true;
+    var btn = newsletterForm.querySelector('button');
+    var orig = btn.textContent;
     btn.textContent = 'Subscribed!';
     btn.disabled = true;
     input.value = '';
-    setTimeout(() => { btn.textContent = orig; btn.disabled = false; }, 3000);
+    showToast('success', 'You\'re subscribed! Check your inbox for updates.');
+    setTimeout(function() {
+      btn.textContent = orig;
+      btn.disabled = false;
+      nlSubmitting = false;
+    }, 3000);
   });
 
   /* ==========================================================
      CHATBOT
      ========================================================== */
-  let chatOpen = false;
+  var chatOpen = false;
 
-  chatToggle.addEventListener('click', () => {
-    chatOpen = !chatOpen;
-    chatWindow.classList.toggle('open', chatOpen);
-    chatToggle.setAttribute('aria-expanded', String(chatOpen));
-    if (chatOpen && chatMessages.children.length === 0) {
+  function openChat() {
+    chatOpen = true;
+    chatWindow.classList.add('open');
+    chatToggle.setAttribute('aria-expanded', 'true');
+    if (chatMessages.children.length === 0) {
       addBotMessage('Hi there! 👋 Welcome to Akoin Fintech. How can I help you today?');
     }
+    chatInput.focus();
+  }
+
+  function closeChat() {
+    chatOpen = false;
+    chatWindow.classList.remove('open');
+    chatToggle.setAttribute('aria-expanded', 'false');
+  }
+
+  chatToggle.addEventListener('click', function() {
+    if (chatOpen) closeChat();
+    else openChat();
   });
 
   function addBotMessage(text) {
-    const msg = document.createElement('div');
+    var msg = document.createElement('div');
     msg.className = 'chat-msg bot';
     msg.textContent = text;
     chatMessages.appendChild(msg);
@@ -339,7 +503,7 @@
   }
 
   function addUserMessage(text) {
-    const msg = document.createElement('div');
+    var msg = document.createElement('div');
     msg.className = 'chat-msg user';
     msg.textContent = text;
     chatMessages.appendChild(msg);
@@ -347,7 +511,7 @@
   }
 
   function showTyping() {
-    const msg = document.createElement('div');
+    var msg = document.createElement('div');
     msg.className = 'chat-msg bot typing';
     msg.id = 'typing-indicator';
     msg.innerHTML = '<span class="typing-dots"><span class="typing-dot"></span><span class="typing-dot"></span><span class="typing-dot"></span></span>';
@@ -356,14 +520,14 @@
   }
 
   function removeTyping() {
-    const t = $('#typing-indicator');
+    var t = $('#typing-indicator');
     if (t) t.remove();
   }
 
   function botReply(userText) {
-    const text = userText.toLowerCase();
+    var text = userText.toLowerCase();
     showTyping();
-    setTimeout(() => {
+    setTimeout(function() {
       removeTyping();
       addBotMessage(getResponse(text));
     }, 800 + Math.random() * 600);
@@ -392,9 +556,9 @@
     return 'I\'d be happy to help! You can ask about our products, pricing, integrations, security, or support. Or visit our FAQ section for quick answers.';
   }
 
-  chatForm.addEventListener('submit', e => {
+  chatForm.addEventListener('submit', function(e) {
     e.preventDefault();
-    const text = chatInput.value.trim();
+    var text = chatInput.value.trim();
     if (!text) return;
     addUserMessage(text);
     chatInput.value = '';
@@ -402,33 +566,237 @@
   });
 
   /* Quick reply chips */
-  $$('.quick-reply').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const msg = btn.dataset.msg;
+  $$('.quick-reply').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      var msg = btn.dataset.msg;
       addUserMessage(msg);
       botReply(msg);
     });
   });
 
   /* ==========================================================
-     PARALLAX ON HERO (mouse-follow)
+     PARALLAX ON HERO (mouse-follow) — Desktop only
      ========================================================== */
-  const heroSection = $('#hero');
-  heroSection.addEventListener('mousemove', e => {
-    const { width, height, left, top } = heroSection.getBoundingClientRect();
-    const x = (e.clientX - left) / width - 0.5;
-    const y = (e.clientY - top) / height - 0.5;
+  var heroSection = $('#hero');
+  if (hasFinePointer && heroSection) {
+    heroSection.addEventListener('mousemove', function(e) {
+      var rect = heroSection.getBoundingClientRect();
+      var x = (e.clientX - rect.left) / rect.width - 0.5;
+      var y = (e.clientY - rect.top) / rect.height - 0.5;
 
-    const orbs = $$('.mesh-orb');
-    orbs.forEach((orb, i) => {
-      const speed = (i + 1) * 12;
-      orb.style.transform = 'translate(' + (x * speed) + 'px,' + (y * speed) + 'px)';
+      var orbs = $$('.mesh-orb');
+      orbs.forEach(function(orb, i) {
+        var speed = (i + 1) * 12;
+        orb.style.transform = 'translate(' + (x * speed) + 'px,' + (y * speed) + 'px)';
+      });
+
+      var heroLogo = $('.hero-logo-anim');
+      if (heroLogo) {
+        heroLogo.style.transform = 'translate(' + (x * -8) + 'px,' + (y * -8) + 'px)';
+      }
     });
+  }
 
-    const heroLogo = $('.hero-logo-anim');
-    if (heroLogo) {
-      heroLogo.style.transform = 'translate(' + (x * -8) + 'px,' + (y * -8) + 'px)';
+  /* ==========================================================
+     PHASE 3.6: COMMAND PALETTE (Cmd+K / Ctrl+K)
+     ========================================================== */
+  var cmdPaletteOpen = false;
+  var cmdActiveIdx = -1;
+
+  function openCmdPalette() {
+    if (cmdPaletteOpen) return;
+    cmdPaletteOpen = true;
+    cmdModal.classList.add('open');
+    cmdModal.setAttribute('aria-hidden', 'false');
+    cmdInput.value = '';
+    filterCmdItems('');
+    cmdActiveIdx = -1;
+    body.style.overflow = 'hidden';
+    requestAnimationFrame(function() { cmdInput.focus(); });
+  }
+
+  function closeCmdPalette() {
+    if (!cmdPaletteOpen) return;
+    cmdPaletteOpen = false;
+    cmdModal.classList.remove('open');
+    cmdModal.setAttribute('aria-hidden', 'true');
+    body.style.overflow = '';
+    /* Return focus to trigger */
+    if (cmdPaletteBtn) cmdPaletteBtn.focus();
+  }
+
+  function filterCmdItems(query) {
+    var q = query.toLowerCase().trim();
+    var items = $$('.cmd-item', cmdResults);
+    items.forEach(function(item) {
+      var text = item.textContent.toLowerCase();
+      if (!q || text.indexOf(q) !== -1) {
+        item.classList.remove('hidden');
+      } else {
+        item.classList.add('hidden');
+      }
+    });
+    cmdActiveIdx = -1;
+  }
+
+  function getVisibleCmdItems() {
+    return $$('.cmd-item:not(.hidden)', cmdResults);
+  }
+
+  function setCmdActive(idx) {
+    var items = getVisibleCmdItems();
+    items.forEach(function(item) { item.classList.remove('active'); });
+    if (idx >= 0 && idx < items.length) {
+      items[idx].classList.add('active');
+      items[idx].scrollIntoView({ block: 'nearest' });
+    }
+    cmdActiveIdx = idx;
+  }
+
+  if (cmdPaletteBtn) {
+    cmdPaletteBtn.addEventListener('click', openCmdPalette);
+  }
+  if (cmdCloseBtn) {
+    cmdCloseBtn.addEventListener('click', closeCmdPalette);
+  }
+
+  /* Close on backdrop click */
+  if (cmdModal) {
+    cmdModal.addEventListener('click', function(e) {
+      if (e.target === cmdModal) closeCmdPalette();
+    });
+  }
+
+  /* Filter as user types */
+  if (cmdInput) {
+    cmdInput.addEventListener('input', function() {
+      filterCmdItems(cmdInput.value);
+    });
+  }
+
+  /* Keyboard navigation inside palette */
+  if (cmdInput) {
+    cmdInput.addEventListener('keydown', function(e) {
+      var items = getVisibleCmdItems();
+      if (e.key === 'ArrowDown') {
+        e.preventDefault();
+        var next = cmdActiveIdx < items.length - 1 ? cmdActiveIdx + 1 : 0;
+        setCmdActive(next);
+      } else if (e.key === 'ArrowUp') {
+        e.preventDefault();
+        var prev = cmdActiveIdx > 0 ? cmdActiveIdx - 1 : items.length - 1;
+        setCmdActive(prev);
+      } else if (e.key === 'Enter') {
+        e.preventDefault();
+        if (cmdActiveIdx >= 0 && cmdActiveIdx < items.length) {
+          items[cmdActiveIdx].click();
+        }
+      }
+    });
+  }
+
+  /* Command palette actions */
+  if (cmdToggleTheme) {
+    cmdToggleTheme.addEventListener('click', function() {
+      closeCmdPalette();
+      themeToggle.click();
+      showToast('info', 'Theme switched to ' + getCurrentTheme() + ' mode.');
+    });
+  }
+  if (cmdOpenChat) {
+    cmdOpenChat.addEventListener('click', function() {
+      closeCmdPalette();
+      openChat();
+    });
+  }
+  if (cmdCopyLink) {
+    cmdCopyLink.addEventListener('click', function() {
+      closeCmdPalette();
+      navigator.clipboard.writeText(window.location.href).then(function() {
+        showToast('success', 'Page URL copied to clipboard!');
+      }).catch(function() {
+        showToast('error', 'Failed to copy URL.');
+      });
+    });
+  }
+
+  /* Navigation items inside palette close it and scroll */
+  $$('.cmd-item[href]', cmdResults).forEach(function(link) {
+    link.addEventListener('click', function() {
+      closeCmdPalette();
+    });
+  });
+
+  /* ==========================================================
+     PHASE 3.6: GLOBAL KEYBOARD SHORTCUTS
+     Cmd+K / Ctrl+K → Command Palette
+     Escape → Close any modal/drawer/palette
+     ========================================================== */
+  document.addEventListener('keydown', function(e) {
+    /* Cmd+K or Ctrl+K */
+    if ((e.metaKey || e.ctrlKey) && (e.key === 'k' || e.key === 'K')) {
+      e.preventDefault();
+      if (cmdPaletteOpen) closeCmdPalette();
+      else openCmdPalette();
+      return;
+    }
+
+    /* Escape key — close any open modal/drawer */
+    if (e.key === 'Escape') {
+      if (cmdPaletteOpen) {
+        closeCmdPalette();
+        return;
+      }
+      if (chatOpen) {
+        closeChat();
+        return;
+      }
+      if (navLinks.classList.contains('open')) {
+        closeMobileNav();
+        return;
+      }
     }
   });
+
+  /* ==========================================================
+     FAQ ACCORDION (if present)
+     ========================================================== */
+  $$('.faq-toggle').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      var item = btn.closest('.faq-item');
+      if (!item) return;
+      var isOpen = item.classList.contains('open');
+      /* Close all others (accordion behavior) */
+      $$('.faq-item').forEach(function(fi) { fi.classList.remove('open'); });
+      if (!isOpen) item.classList.add('open');
+      btn.setAttribute('aria-expanded', String(!isOpen));
+    });
+  });
+
+  /* ==========================================================
+     PHASE 4: NETWORK STATUS DETECTION (Offline Resilience)
+     ========================================================== */
+  window.addEventListener('offline', function() {
+    showToast('warning', 'You appear to be offline. Some features may be unavailable.');
+  });
+  window.addEventListener('online', function() {
+    showToast('success', 'You\'re back online!');
+  });
+
+  /* ==========================================================
+     PHASE 4: CROSS-TAB AUTH SYNC (BroadcastChannel)
+     ========================================================== */
+  try {
+    var authChannel = new BroadcastChannel('akoin_auth_sync');
+    authChannel.addEventListener('message', function(e) {
+      if (e.data && e.data.type === 'logout') {
+        showToast('info', 'You were signed out from another tab.');
+        /* In a real app, redirect to login */
+      }
+    });
+    /* Expose for use: window.__akoinAuthChannel = authChannel; */
+  } catch(e) {
+    /* BroadcastChannel not supported — graceful fallback */
+  }
 
 })();
