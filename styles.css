@@ -61,14 +61,15 @@ a.btn,
   --gradient:linear-gradient(135deg,var(--accent),var(--accent-alt));
 }
 
-/* ---------- DARK THEME ---------- */
+/* ---------- DARK THEME (Midnight Obsidian & Electric Violet) ---------- */
 [data-theme="dark"]{
-  --bg:#0F0F11;--bg-alt:#1A1A1E;--surface:#1C1C21;--surface-hover:#26262C;
-  --text:#F0EDE8;--text-muted:#A0A0A8;--text-light:#6C6C74;
-  --accent:#F0A500;--accent-alt:#FFBF3F;--accent-hover:#D4920A;
-  --border:#2A2A30;--border-light:#222228;
-  --shadow-sm:0 1px 3px rgba(0,0,0,.2);--shadow-md:0 4px 16px rgba(0,0,0,.25);--shadow-lg:0 12px 40px rgba(0,0,0,.35);
-  --glass-bg:rgba(28,28,33,.65);--glass-border:rgba(255,255,255,.08);
+  --bg:#0F172A;--bg-alt:#1E293B;--surface:#1E293B;--surface-hover:#334155;
+  --text:#F8FAFC;--text-muted:#94A3B8;--text-light:#64748B;
+  --accent:#8B5CF6;--accent-alt:#34D399;--accent-hover:#7C3AED;
+  --border:#334155;--border-light:#1E293B;
+  --shadow-sm:0 1px 3px rgba(0,0,0,.3);--shadow-md:0 4px 16px rgba(0,0,0,.4);--shadow-lg:0 12px 40px rgba(0,0,0,.5);
+  --glass-bg:rgba(30,41,59,.75);--glass-border:rgba(255,255,255,.1);
+  --neon-mint:#34D399;--electric-violet:#8B5CF6;
 }
 
 /* ---------- TYPOGRAPHY ---------- */

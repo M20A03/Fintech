@@ -329,6 +329,14 @@
   }
   resetAuto();
 
+  document.addEventListener('visibilitychange', function() {
+    if (document.hidden) {
+      clearInterval(tAuto);
+    } else {
+      resetAuto();
+    }
+  });
+
   var prevBtn = $('.tc-prev');
   var nextBtn = $('.tc-next');
   if (prevBtn) prevBtn.addEventListener('click', function() { goToSlide(tIdx - 1); });
