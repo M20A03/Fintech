@@ -85,6 +85,7 @@
       <ul class="nav-links" id="nav-links" role="list">
         <li><a href="#hero" class="nav-link active">Home</a></li>
         <li><a href="#about" class="nav-link">About</a></li>
+        <li><a href="#simulator" class="nav-link"><span class="live-indicator-dot"></span>Live Demo</a></li>
         <li><a href="#products" class="nav-link">Products</a></li>
         <li><a href="#services" class="nav-link">Services</a></li>
         <li><a href="#industries" class="nav-link">Industries</a></li>
@@ -264,6 +265,201 @@
                   <svg viewBox="0 0 24 24" width="24" height="24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" fill="none" stroke="currentColor" stroke-width="2"/></svg>
                 </div>
                 <div><strong>Bank-Grade Security</strong><span>256-bit encryption end-to-end</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         INTERACTIVE NEOBANK DASHBOARD & 3D CARD SIMULATOR
+         ============================================================ -->
+    <section class="section section-simulator" id="simulator">
+      <div class="container">
+        <div class="section-header reveal">
+          <span class="section-tag"><span class="live-pulse"></span>Live Interactive Neobank Experience</span>
+          <h2>Move Money Smarter, Faster &amp; Safer</h2>
+          <p class="section-desc">Experience our 3D holographic virtual card, instant peer transfers with real-time balance calculations, and categorized transaction tracking.</p>
+        </div>
+
+        <div class="simulator-grid reveal">
+          <!-- Left: 3D Holographic Card & Quick Transfer Panel -->
+          <div class="simulator-left">
+            <!-- 3D Virtual Card Container -->
+            <div class="virtual-card-wrapper" id="card-3d-wrapper">
+              <div class="virtual-card" id="virtual-card">
+                <!-- Front Side -->
+                <div class="card-face card-front">
+                  <div class="card-glow-overlay"></div>
+                  <div class="card-top">
+                    <div class="card-bank-brand">
+                      <span class="brand-text">AKOIN</span>
+                      <span class="brand-badge">PLATINUM</span>
+                    </div>
+                    <div class="contactless-icon">
+                      <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M5 12.55a11 11 0 0 1 14.08 0"/>
+                        <path d="M1.42 9a16 16 0 0 1 21.16 0"/>
+                        <path d="M8.53 16.11a6 6 0 0 1 6.95 0"/>
+                        <line x1="12" y1="20" x2="12.01" y2="20"/>
+                      </svg>
+                    </div>
+                  </div>
+
+                  <div class="card-chip">
+                    <div class="chip-line"></div>
+                    <div class="chip-line"></div>
+                    <div class="chip-line"></div>
+                  </div>
+
+                  <div class="card-number-row">
+                    <span class="card-number" id="card-num-display">4532 &bull;&bull;&bull;&bull; &bull;&bull;&bull;&bull; 8829</span>
+                    <button type="button" class="btn-copy-card" id="btn-copy-card" title="Copy Card Number">
+                      <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                    </button>
+                  </div>
+
+                  <div class="card-bottom">
+                    <div class="card-holder">
+                      <span class="lbl">CARDHOLDER</span>
+                      <strong class="val">MAYANK RAJ</strong>
+                    </div>
+                    <div class="card-expiry">
+                      <span class="lbl">EXPIRES</span>
+                      <strong class="val">12/28</strong>
+                    </div>
+                    <div class="card-cvv-wrap">
+                      <span class="lbl">CVV</span>
+                      <button type="button" class="btn-toggle-cvv" id="btn-toggle-cvv" title="Toggle CVV visibility">
+                        <strong class="val" id="cvv-display">&bull;&bull;&bull;</strong>
+                      </button>
+                    </div>
+                    <div class="card-network-logo">
+                      <span class="visa-text">VISA</span>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Back Side -->
+                <div class="card-face card-back">
+                  <div class="magnetic-strip"></div>
+                  <div class="signature-bar">
+                    <span class="signature-text">Mayank Raj</span>
+                    <span class="cvv-badge" id="cvv-badge-back">784</span>
+                  </div>
+                  <p class="card-back-disclaimer">Authorized signature required. Issued by Akoin Fintech under Reserve Bank of India license. 24x7 Support: 1800-AKOIN-PAY.</p>
+                </div>
+              </div>
+
+              <!-- Card Flip & Tilt Controls -->
+              <div class="card-controls">
+                <button type="button" class="btn-card-ctrl" id="btn-flip-card">
+                  <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"/><path d="M8 16H3v5"/></svg>
+                  <span>Flip Card</span>
+                </button>
+                <span class="card-hint-text">Hover or drag card for 3D spatial tilt</span>
+              </div>
+            </div>
+
+            <!-- Instant Transfer Widget -->
+            <div class="quick-transfer-card glass-card">
+              <div class="balance-display-header">
+                <div>
+                  <span class="balance-label">Available Neobank Balance</span>
+                  <div class="balance-amount" id="live-balance">₹2,48,750.00</div>
+                </div>
+                <span class="status-live-chip"><span class="dot"></span>Active Account</span>
+              </div>
+
+              <div class="transfer-form-inner">
+                <label class="form-sub-label">Select Peer Recipient</label>
+                <div class="recipients-carousel" id="recipients-carousel">
+                  <button type="button" class="recipient-btn active" data-name="Rohan Sharma" data-upi="rohan@okaxis">
+                    <img src="https://ui-avatars.com/api/?name=Rohan+Sharma&background=6366f1&color=fff&size=80" alt="Rohan">
+                    <span>Rohan</span>
+                  </button>
+                  <button type="button" class="recipient-btn" data-name="Priya Patel" data-upi="priya@okhdfc">
+                    <img src="https://ui-avatars.com/api/?name=Priya+Patel&background=10b981&color=fff&size=80" alt="Priya">
+                    <span>Priya</span>
+                  </button>
+                  <button type="button" class="recipient-btn" data-name="Vikram Singh" data-upi="vikram@icici">
+                    <img src="https://ui-avatars.com/api/?name=Vikram+Singh&background=f59e0b&color=fff&size=80" alt="Vikram">
+                    <span>Vikram</span>
+                  </button>
+                  <button type="button" class="recipient-btn" data-name="Ananya Roy" data-upi="ananya@sbi">
+                    <img src="https://ui-avatars.com/api/?name=Ananya+Roy&background=ec4899&color=fff&size=80" alt="Ananya">
+                    <span>Ananya</span>
+                  </button>
+                </div>
+
+                <div class="amount-input-group">
+                  <label for="transfer-amount" class="form-sub-label">Amount (₹)</label>
+                  <div class="amount-field-wrap">
+                    <span class="currency-prefix">₹</span>
+                    <input type="number" id="transfer-amount" value="2500" min="10" max="100000" step="10">
+                  </div>
+                  <div class="amount-presets">
+                    <button type="button" class="preset-btn" data-amt="500">₹500</button>
+                    <button type="button" class="preset-btn active" data-amt="2500">₹2,500</button>
+                    <button type="button" class="preset-btn" data-amt="5000">₹5,000</button>
+                    <button type="button" class="preset-btn" data-amt="10000">₹10,000</button>
+                  </div>
+                </div>
+
+                <button type="button" class="btn btn-primary btn-block btn-send-transfer" id="btn-send-transfer">
+                  <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+                  <span>Send Instant Transfer</span>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right: Real-time Ledger & Analytics -->
+          <div class="simulator-right">
+            <div class="ledger-card glass-card">
+              <div class="ledger-header">
+                <div class="ledger-title-wrap">
+                  <h3>Live Transaction Ledger</h3>
+                  <p>Real-time categorized ledger with instant search &amp; filters</p>
+                </div>
+                <button type="button" class="btn-reset-ledger" id="btn-reset-ledger" title="Reset Demo Ledger">Reset</button>
+              </div>
+
+              <!-- Filter Bar & Search -->
+              <div class="ledger-controls">
+                <div class="ledger-search-box">
+                  <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                  <input type="text" id="ledger-search" placeholder="Search by recipient or note...">
+                </div>
+
+                <div class="ledger-filters" role="group" aria-label="Transaction filters">
+                  <button type="button" class="filter-pill active" data-filter="all">All</button>
+                  <button type="button" class="filter-pill" data-filter="income">Income</button>
+                  <button type="button" class="filter-pill" data-filter="expense">Expense</button>
+                  <button type="button" class="filter-pill" data-filter="transfer">Transfer</button>
+                </div>
+              </div>
+
+              <!-- Transaction List Feed -->
+              <div class="transactions-feed" id="transactions-feed" role="feed" aria-busy="false">
+                <!-- Dynamically populated by script.js -->
+              </div>
+
+              <!-- Monthly Summary Metrics -->
+              <div class="ledger-summary-strip">
+                <div class="summary-col income">
+                  <span class="sub-lbl">Total Inflow</span>
+                  <strong class="sub-val">+₹3,85,000</strong>
+                </div>
+                <div class="summary-col expense">
+                  <span class="sub-lbl">Total Outflow</span>
+                  <strong class="sub-val" id="ledger-total-outflow">-₹1,36,250</strong>
+                </div>
+                <div class="summary-col net">
+                  <span class="sub-lbl">Savings Rate</span>
+                  <strong class="sub-val">64.6%</strong>
+                </div>
               </div>
             </div>
           </div>

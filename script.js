@@ -807,4 +807,269 @@
     /* BroadcastChannel not supported — graceful fallback */
   }
 
+  /* ==========================================================
+     PHASE 7: INTERACTIVE NEOBANK SIMULATOR & 3D VIRTUAL CARD
+     ========================================================== */
+  ;(function initNeobankSimulator() {
+    const cardWrapper = $('#card-3d-wrapper');
+    const virtualCard = $('#virtual-card');
+    const btnFlipCard = $('#btn-flip-card');
+    const btnToggleCvv = $('#btn-toggle-cvv');
+    const cvvDisplay = $('#cvv-display');
+    const btnCopyCard = $('#btn-copy-card');
+
+    let isFlipped = false;
+    let isCvvVisible = false;
+
+    // 3D Tilt on Hover / Drag
+    if (cardWrapper && virtualCard) {
+      cardWrapper.addEventListener('mousemove', function(e) {
+        if (isFlipped) return;
+        const rect = cardWrapper.getBoundingClientRect();
+        const x = e.clientX - rect.left - rect.width / 2;
+        const y = e.clientY - rect.top - rect.height / 2;
+        const rotX = -(y / (rect.height / 2)) * 12;
+        const rotY = (x / (rect.width / 2)) * 14;
+        virtualCard.style.transform = `perspective(1000px) rotateX(${rotX}deg) rotateY(${rotY}deg) scale3d(1.02, 1.02, 1.02)`;
+      });
+
+      cardWrapper.addEventListener('mouseleave', function() {
+        if (isFlipped) {
+          virtualCard.style.transform = 'rotateY(180deg)';
+        } else {
+          virtualCard.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)';
+        }
+      });
+    }
+
+    // Flip Card
+    if (btnFlipCard && virtualCard) {
+      btnFlipCard.addEventListener('click', function(e) {
+        e.stopPropagation();
+        isFlipped = !isFlipped;
+        virtualCard.classList.toggle('is-flipped', isFlipped);
+        if (isFlipped) {
+          virtualCard.style.transform = 'rotateY(180deg)';
+        } else {
+          virtualCard.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg)';
+        }
+      });
+    }
+
+    // Toggle CVV
+    if (btnToggleCvv && cvvDisplay) {
+      btnToggleCvv.addEventListener('click', function(e) {
+        e.stopPropagation();
+        isCvvVisible = !isCvvVisible;
+        cvvDisplay.textContent = isCvvVisible ? '784' : '•••';
+        showToast('info', isCvvVisible ? 'CVV revealed (784)' : 'CVV hidden');
+      });
+    }
+
+    // Copy Card Number
+    if (btnCopyCard) {
+      btnCopyCard.addEventListener('click', function(e) {
+        e.stopPropagation();
+        const fullCardNum = '4532 8920 1042 8829';
+        if (navigator.clipboard) {
+          navigator.clipboard.writeText(fullCardNum).then(function() {
+            showToast('success', 'Card number copied: ' + fullCardNum);
+          });
+        } else {
+          showToast('success', 'Card: ' + fullCardNum);
+        }
+      });
+    }
+
+    // --- QUICK TRANSFER & LIVE BALANCE ---
+    let currentBalance = 248750.00;
+    let totalOutflow = 136250.00;
+    const balanceDisplay = $('#live-balance');
+    const outflowDisplay = $('#ledger-total-outflow');
+    const transferAmountInput = $('#transfer-amount');
+    const btnSendTransfer = $('#btn-send-transfer');
+    const recipientBtns = $$('.recipient-btn');
+    const presetBtns = $$('.preset-btn');
+
+    let selectedRecipient = { name: 'Rohan Sharma', upi: 'rohan@okaxis' };
+
+    // Select Recipient
+    recipientBtns.forEach(btn => {
+      btn.addEventListener('click', function() {
+        recipientBtns.forEach(b => b.classList.remove('active'));
+        this.classList.add('active');
+        selectedRecipient = {
+          name: this.dataset.name,
+          upi: this.dataset.upi
+        };
+      });
+    });
+
+    // Preset Amount Selectors
+    presetBtns.forEach(btn => {
+      btn.addEventListener('click', function() {
+        presetBtns.forEach(b => b.classList.remove('active'));
+        this.classList.add('active');
+        if (transferAmountInput) {
+          transferAmountInput.value = this.dataset.amt;
+        }
+      });
+    });
+
+    if (transferAmountInput) {
+      transferAmountInput.addEventListener('input', function() {
+        presetBtns.forEach(b => b.classList.remove('active'));
+      });
+    }
+
+    // --- TRANSACTIONS DATA & LEDGER ---
+    const DEFAULT_TRANSACTIONS = [
+      { id: 'tx-1', type: 'income', name: 'Razorpay Settlements', note: 'Batch Payout #9482', time: '12m ago', amount: 45000, positive: true },
+      { id: 'tx-2', type: 'expense', name: 'AWS Cloud Services', note: 'Monthly Hosting Infrastructure', time: '1h ago', amount: 12450, positive: false },
+      { id: 'tx-3', type: 'transfer', name: 'Vendor Payout - Logistics', note: 'BlueDart Air Express', time: '3h ago', amount: 8200, positive: false },
+      { id: 'tx-4', type: 'income', name: 'Client Inward Remittance', note: 'TechCorp Europe B.V.', time: 'Yesterday', amount: 120000, positive: true },
+      { id: 'tx-5', type: 'expense', name: 'Google Workspace Sub', note: '50 Enterprise Seats', time: '2 days ago', amount: 6500, positive: false }
+    ];
+
+    let liveTransactions = [...DEFAULT_TRANSACTIONS];
+    const txFeed = $('#transactions-feed');
+    const ledgerSearch = $('#ledger-search');
+    const filterPills = $$('.filter-pill');
+    const btnResetLedger = $('#btn-reset-ledger');
+
+    let currentFilter = 'all';
+    let searchQuery = '';
+
+    function renderTransactions() {
+      if (!txFeed) return;
+      txFeed.innerHTML = '';
+
+      const filtered = liveTransactions.filter(tx => {
+        const matchesFilter = currentFilter === 'all' || tx.type === currentFilter;
+        const matchesSearch = !searchQuery || 
+          tx.name.toLowerCase().includes(searchQuery.toLowerCase()) || 
+          tx.note.toLowerCase().includes(searchQuery.toLowerCase());
+        return matchesFilter && matchesSearch;
+      });
+
+      if (filtered.length === 0) {
+        txFeed.innerHTML = '<div style="text-align:center;padding:24px;color:var(--text-muted);font-size:0.85rem;">No matching transactions found.</div>';
+        return;
+      }
+
+      filtered.forEach(tx => {
+        const row = document.createElement('div');
+        row.className = 'tx-row';
+        const iconSymbol = tx.type === 'income' ? '↓' : tx.type === 'transfer' ? '⇄' : '↑';
+        const amtPrefix = tx.positive ? '+₹' : '-₹';
+        const amtClass = tx.positive ? 'positive' : 'negative';
+
+        row.innerHTML = `
+          <div class="tx-left">
+            <div class="tx-icon-wrap ${tx.type}">${iconSymbol}</div>
+            <div class="tx-info">
+              <h4>${tx.name}</h4>
+              <small>${tx.note} • ${tx.time}</small>
+            </div>
+          </div>
+          <div class="tx-right">
+            <div class="tx-amount ${amtClass}">${amtPrefix}${tx.amount.toLocaleString('en-IN')}</div>
+            <span class="tx-status-pill">Success</span>
+          </div>
+        `;
+        txFeed.appendChild(row);
+      });
+    }
+
+    renderTransactions();
+
+    // Filter pills
+    filterPills.forEach(pill => {
+      pill.addEventListener('click', function() {
+        filterPills.forEach(p => p.classList.remove('active'));
+        this.classList.add('active');
+        currentFilter = this.dataset.filter;
+        renderTransactions();
+      });
+    });
+
+    // Search input
+    if (ledgerSearch) {
+      ledgerSearch.addEventListener('input', function() {
+        searchQuery = this.value.trim();
+        renderTransactions();
+      });
+    }
+
+    // Reset ledger
+    if (btnResetLedger) {
+      btnResetLedger.addEventListener('click', function() {
+        liveTransactions = [...DEFAULT_TRANSACTIONS];
+        currentBalance = 248750.00;
+        totalOutflow = 136250.00;
+        if (balanceDisplay) balanceDisplay.textContent = '₹' + currentBalance.toLocaleString('en-IN', { minimumFractionDigits: 2 });
+        if (outflowDisplay) outflowDisplay.textContent = '-₹' + totalOutflow.toLocaleString('en-IN');
+        currentFilter = 'all';
+        searchQuery = '';
+        if (ledgerSearch) ledgerSearch.value = '';
+        filterPills.forEach(p => p.classList.toggle('active', p.dataset.filter === 'all'));
+        renderTransactions();
+        showToast('info', 'Demo ledger restored to default state.');
+      });
+    }
+
+    // Send Instant Transfer
+    if (btnSendTransfer) {
+      btnSendTransfer.addEventListener('click', function() {
+        const amount = parseFloat(transferAmountInput ? transferAmountInput.value : 0);
+        if (isNaN(amount) || amount <= 0) {
+          showToast('error', 'Please enter a valid transfer amount.');
+          return;
+        }
+
+        if (amount > currentBalance) {
+          showToast('error', 'Insufficient funds in Neobank balance.');
+          return;
+        }
+
+        // Button loading state
+        const origText = btnSendTransfer.innerHTML;
+        btnSendTransfer.disabled = true;
+        btnSendTransfer.innerHTML = '<span>Processing Transfer...</span>';
+
+        setTimeout(() => {
+          currentBalance -= amount;
+          totalOutflow += amount;
+
+          if (balanceDisplay) {
+            balanceDisplay.textContent = '₹' + currentBalance.toLocaleString('en-IN', { minimumFractionDigits: 2 });
+          }
+          if (outflowDisplay) {
+            outflowDisplay.textContent = '-₹' + totalOutflow.toLocaleString('en-IN');
+          }
+
+          // Add transaction to ledger
+          const newTx = {
+            id: 'tx-' + Date.now(),
+            type: 'transfer',
+            name: 'Transfer to ' + selectedRecipient.name,
+            note: 'UPI: ' + selectedRecipient.upi,
+            time: 'Just now',
+            amount: amount,
+            positive: false
+          };
+
+          liveTransactions.unshift(newTx);
+          renderTransactions();
+
+          btnSendTransfer.disabled = false;
+          btnSendTransfer.innerHTML = origText;
+
+          showToast('success', `Sent ₹${amount.toLocaleString('en-IN')} to ${selectedRecipient.name} successfully! Ref #AK${Math.floor(100000 + Math.random() * 900000)}`);
+        }, 600);
+      });
+    }
+  })();
+
 })();
+
