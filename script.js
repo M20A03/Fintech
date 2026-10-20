@@ -149,9 +149,34 @@
   /* Close on overlay click */
   navOverlay.addEventListener('click', closeMobileNav);
 
-  /* Close on nav link click */
+  /* Close on nav link click with smooth scroll */
   $$('.nav-link').forEach(function(link) {
-    link.addEventListener('click', closeMobileNav);
+    link.addEventListener('click', function(e) {
+      var href = link.getAttribute('href');
+      if (href && href.startsWith('#')) {
+        var target = $(href);
+        if (target) {
+          e.preventDefault();
+          /* Close mobile drawer without focusing hamburger so viewport doesn't scroll back to top */
+          navLinks.classList.remove('open');
+          hamburger.classList.remove('active');
+          hamburger.setAttribute('aria-expanded', 'false');
+          body.style.overflow = '';
+          navOverlay.classList.remove('active');
+
+          setTimeout(function() {
+            var navHeight = navbar ? navbar.offsetHeight : 70;
+            var targetPos = target.getBoundingClientRect().top + window.pageYOffset - navHeight;
+            window.scrollTo({
+              top: targetPos,
+              behavior: 'smooth'
+            });
+          }, 80);
+          return;
+        }
+      }
+      closeMobileNav();
+    });
   });
 
   /* Focus trap inside mobile nav */
